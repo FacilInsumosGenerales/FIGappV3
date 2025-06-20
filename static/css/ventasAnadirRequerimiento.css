@@ -1,0 +1,25 @@
+#search-result {
+  display: flex;
+  gap: 2rem;
+}
+
+#search-result > * {
+  flex-grow: 1;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#nombre-req {
+  width: 15rem;
+}
+
+#editar-prov-btn {
+  display: flex;
+  justify-content: space-between;
+}
+
+.estado {
+  width: 100%;
+  justify-content: center;
+}
+

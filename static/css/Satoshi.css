@@ -1,0 +1,89 @@
+@font-face {
+	font-family: 'Satoshi';
+	src: url(../../static/fonts/Satoshi-8ebea2a49a1849775ecad42f8031e7c3.woff2) format('woff2'),
+	url(../../static/fonts/Satoshi-c370627c4fa822ca452d4935fdc2b28e.woff) format('woff');
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Satoshi';
+	src: url(../../static/fonts/Satoshi-b70d78d598ea0e95afe93418c5b11076.woff2) format('woff2'),
+	url(../../static/fonts/Satoshi-523b860c0481987b843854d3c6f8277a.woff) format('woff');
+	font-weight: 300;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Satoshi';
+	src: url(../../static/fonts/Satoshi-8478563fbaacd3000b331326c09d4094.woff2) format('woff2'),
+	url(../../static/fonts/Satoshi-4537583d99f300a8af28cac74408ba9f.woff) format('woff');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Satoshi';
+	src: url(../../static/fonts/Satoshi-7e44d45e5f03e1c863d6e097d3fe7ef9.woff2) format('woff2'),
+	url(../../static/fonts/Satoshi-1761d259d0f383befc2b3817d92d068a.woff) format('woff');
+	font-weight: normal;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Satoshi';
+	src: url(../../static/fonts/Satoshi-41db7dedc1114e71cba6e09cde941cfb.woff2) format('woff2'),
+	url(../../static/fonts/Satoshi-290dde80d8208aa5a23c83967d43e76e.woff) format('woff');
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Satoshi';
+	src: url(../../static/fonts/Satoshi-f033bd308ad22b31ab64a208b83e9e3d.woff2) format('woff2'),
+	url(../../static/fonts/Satoshi-94a63920a7fee02de33fe0aa83e37f00.woff) format('woff');
+	font-weight: 500;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Satoshi';
+	src: url(../../static/fonts/Satoshi-0ac0ee4aba960be58a991ebfb5869720.woff2) format('woff2'),
+	url(../../static/fonts/Satoshi-7ffeba83035ec7f281ec5eaeb61ad878.woff) format('woff');
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Satoshi';
+	src: url(../../static/fonts/Satoshi-8e24511467930a1b7cc9daaeed39dc0a.woff2) format('woff2'),
+	url(../../static/fonts/Satoshi-b8d6b774062c0e4e323e99203e6f09ca.woff) format('woff');
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Satoshi';
+	src: url(../../static/fonts/Satoshi-b155e4c071d71f484d1ff1e377ee68da.woff2) format('woff2'),
+	url(../../static/fonts/Satoshi-f10631179c36eb5e5a93988b913a9683.woff) format('woff');
+	font-weight: bold;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Satoshi';
+	src: url(../../static/fonts/Satoshi-0c9338ba603b028678340fbfec58433e.woff2) format('woff2'),
+	url(../../static/fonts/Satoshi-619a6045076c575e9950afbfda38acf6.woff) format('woff');
+	font-weight: bold;
+	font-style: italic;
+	font-display: swap;
+}

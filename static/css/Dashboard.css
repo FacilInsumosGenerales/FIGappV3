@@ -1,0 +1,32 @@
+#content {
+  /*flex-direction: row;*/
+  height: calc(100vh - 4.5rem);
+}
+
+.icon {
+  height: auto;
+  width: 1.5rem;
+}
+
+/* Card group. Content>* is flex */
+
+.card-group {
+  flex-direction: column;
+  gap: 2rem;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.card-group > * {
+  flex: 1;
+  box-sizing: border-box;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+/* Icons */
+
+.oc-icon {
+  color: var(--bs-danger);
+}
+

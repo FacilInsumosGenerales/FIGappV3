@@ -1,0 +1,17 @@
+.info-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.info-group > * {
+  text-align: right;
+}
+
+#btnCancelar {
+  display: none;
+}
+
+#tarjeta-detalle {
+  /*display: none;*/
+}
+

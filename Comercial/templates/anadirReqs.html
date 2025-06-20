@@ -1,0 +1,36 @@
+{% extends "base.html" %} 
+{% load static %}
+
+{% block head %} 
+<script src="{% static 'js/vista/comercial_AnadirRequerimientos.js' %}" type="module" defer></script>
+{% endblock %} 
+
+
+
+{% block topMenu %} 
+<h3 id="page-title">Comercial: Añadir requerimiento</h3>
+<div id="botones" class="btn-group" role="group"></div>
+{% endblock %} 
+
+
+
+{% block content %}  
+<div class="tarjeta">
+    <div class="card-title-group">
+        <h4>Empresa cliente</h4><button id="btnNuevaEmpresa" class="btn" type="button" data-bs-toggle="modal">+ Empresa</button>
+    </div>
+    <div id="tblEmpresa"></div>
+</div>
+
+<div class="tarjeta">
+    <div class="card-title-group">
+        <h4>Contacto de empresa cliente</h4><button id="btnNuevoContacto" class="btn" type="button" data-bs-toggle="modal">+ Contacto</button>
+    </div>
+    <div id="tblContacto"></div>
+</div>
+
+<div class="tarjeta">
+    <h4>Añadir detalles de requerimiento</h4>
+    <div id="formularioRequerimiento"></div>
+</div>
+{% endblock %} 

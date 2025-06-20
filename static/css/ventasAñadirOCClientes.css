@@ -1,0 +1,10 @@
+.table-group {
+  display: flex;
+  gap: 1rem;
+  background-color: white !important;
+}
+
+.table-group > * {
+  flex: 1;
+}
+
