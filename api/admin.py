@@ -1,8 +1,13 @@
 from django.contrib import admin
-from .models import Reuniones, Usuarios, Asistencia, MovimientosBancarios
+from django.apps import apps
+from .apps import ApiConfig
 
-# Register your models here.
-admin.site.register(Reuniones)
-admin.site.register(Usuarios)
-admin.site.register(Asistencia)
-admin.site.register(MovimientosBancarios)
+# obtiene todos los modelos de la app actual
+app = apps.get_app_config(ApiConfig.name)
+for model_name, model in app.models.items():
+    try:
+        admin.site.register(model)
+    except admin.sites.AlreadyRegistered:
+        pass
+
+
