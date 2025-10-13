@@ -2,31 +2,32 @@ from django.db import models
 
 class DatosGeneralesDelProceso(models.Model):
     codReq = models.CharField(max_length=300, null=True, blank=True)
-    nombreDelProducto = models.CharField(max_length=600, null=True, blank=True)
+    nombreDelProducto = models.TextField(null=True, blank=True)
     prioridad = models.CharField(max_length=300, null=True, blank=True)
     contactoCliente = models.ForeignKey('Contactos', null=True, blank=True, on_delete=models.SET_NULL)
     otrosCostosConFactura = models.DecimalField(max_digits=11, decimal_places=2, null=True, blank=True)
     costosSinFactura = models.DecimalField(max_digits=11, decimal_places=2, null=True, blank=True)
     submissionDate = models.DateTimeField(null=True, blank=True)
-    estado = models.CharField(max_length=300, null=True, blank=True)
+    estado = models.IntegerField(null=True, blank=True)
     lugarDeEntregaAlCliente = models.ForeignKey('Lugares', null=True, blank=True, on_delete=models.SET_NULL)
-    adjuntos = models.CharField(max_length=255, blank=True, null=True)
+    adjuntos = models.CharField(max_length=300, blank=True, null=True)
     transporteEstimadoSoles = models.DecimalField(max_digits=11, decimal_places=2, null=True, blank=True)
     gmPorcentajeDeseado = models.DecimalField(max_digits=11, decimal_places=2, null=True, blank=True)
-    productoEntregado = models.CharField(max_length=600, null=True, blank=True)    
+    productoEntregado = models.CharField(max_length=300, null=True, blank=True)    
     ediciones = models.TextField(null=True, blank=True)
+    encargado = models.ForeignKey('Usuarios',blank=True,on_delete=models.CASCADE)
 
     TRAZA = models.AutoField(primary_key=True)
 
 
 class DatosGeneralesOCsClientes(models.Model):
-    numeroDeCotizacion =models.IntegerField(null=True,blank=True)
+    numeroDeCotizacion =models.ForeignKey('DatosGeneralesDeCotizaciones',blank=True,on_delete=models.CASCADE)
     contactoCliente =models.ForeignKey('Contactos',blank=True,on_delete=models.CASCADE)
     lugarDeEntregaAlCliente=models.ForeignKey('Lugares',null=True,blank=True,on_delete=models.CASCADE)
     numeroOcCliente = models.CharField(max_length=150, null=True, blank=True)
     estado = models.IntegerField(null=True,blank=True)
-    valorSinIgv = models.DecimalField(max_digits=11, decimal_places=2, null=True, blank=True)
-    igv = models.DecimalField(max_digits=11, decimal_places=2, null=True, blank=True)
+    valorSinIgv = models.DecimalField(max_digits=13, decimal_places=2, null=True, blank=True)
+    igv = models.DecimalField(max_digits=13, decimal_places=2, null=True, blank=True)
     fechaEmision = models.DateTimeField(null=True, blank=True)
     ocClientePdf = models.CharField(max_length=300, null=True, blank=True)
     ediciones = models.TextField(null=True, blank=True)
@@ -44,7 +45,7 @@ class DatosGeneralesOrdenCompraAProveedores(models.Model):
     lugarDeEntrega = models.ForeignKey('Lugares', null=True, blank=True, on_delete=models.CASCADE)
     garantia = models.CharField(max_length=300, null=True, blank=True)
     ocPdf = models.CharField(max_length=300, null=True, blank=True)
-    ocEntregada = models.CharField(max_length=300, null=True, blank=True)
+    ocEntregada = models.DateTimeField(max_length=300, null=True, blank=True)
     observaciones = models.CharField(max_length=500, null=True, blank=True)
     ediciones = models.TextField(null=True, blank=True)
     fechaActualizacion = models.DateTimeField(null=True, blank=True)
@@ -59,13 +60,13 @@ class DatosGeneralesDeCotizaciones(models.Model):
     valorDeVenta = models.DecimalField(max_digits=13, decimal_places=2, null=True, blank=True)
     igv = models.DecimalField(max_digits=13, decimal_places=2, null=True, blank=True)
     fecha = models.DateTimeField(null=True, blank=True)
-    validez = models.IntegerField()
+    validez = models.IntegerField(null = True, blank=True)
     enviada = models.DateTimeField(null=True, blank=True)
     archivo = models.CharField(max_length=300, null=True, blank=True)
     adjuntos = models.CharField(max_length=300, null=True, blank=True)
     observaciones = models.CharField(max_length=500, null=True, blank=True)
-    estado = models.IntegerField()
-    estidicones = models.TextField(null=True, blank=True)
+    estado = models.IntegerField(null=True, blank=True)
+    ediciones = models.TextField(null=True, blank=True)
 
     TRAZA = models.AutoField(primary_key=True)
 
@@ -88,9 +89,4 @@ class Detracciones(models.Model):
     ediciones = models.TextField(null=True, blank=True)
 
     TRAZA = models.AutoField(primary_key=True)
-
-
-
-
-
 

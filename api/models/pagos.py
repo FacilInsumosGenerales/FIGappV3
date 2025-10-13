@@ -11,9 +11,8 @@ class ComprobantesDePago(models.Model):
         (0, 'Clientes'),
         (1, 'Proveedor'),
         (2, 'Logística'),
-        (3, 'Costo equipo'),
-        (4, 'Costos equipo'),
-        (5, 'Varios'),
+        (3, 'Costos equipo'),
+        (4, 'Varios'),
     )
 
     tipo = models.IntegerField(choices=TIPO_CHOICES, null=True, blank=True)
@@ -72,11 +71,11 @@ class Bcp(models.Model):
     monto = models.DecimalField(max_digits=13, decimal_places=2, null=True, blank=True)
     moneda = models.CharField(max_length=3, null=True, blank=True)
     saldo = models.DecimalField(max_digits=13, decimal_places=2, null=True, blank=True)
-    bcp = models.CharField(max_digits=300, null=True, blank=True)
+    bcp = models.CharField(max_length=300, null=True, blank=True)
     conciliacion = models.ForeignKey(MovimientosBancarios, null=True, blank=True, on_delete=models.SET_NULL)
-    contable = models.DecimalField(max_digits=13, decimal_places=2, null=True, blank=True)
+    contable = models.IntegerField(null=True, blank=True)
     ediciones = models.TextField(null=True, blank=True)
-    nroDeOperacion = models.CharField(max_length=300, null=True, blank=True)
+    nroDeOperacion = models.CharField(max_length=255, null=True, blank=True)
     
     TRAZA = models.AutoField(primary_key=True)
 

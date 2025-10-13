@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .utils import guardar_datos_nuevos, actualizar_datos,obtener_datos_con_relaciones
+from .services.data_service import guardar_datos_nuevos, actualizar_datos,obtener_datos_con_relaciones
+from .services.query_service import construirQuery
 import json
 import os
 from django.conf import settings
@@ -42,7 +43,6 @@ def actualizar(request):
         except Exception as e:
             return JsonResponse({"mensaje": str(e), "status": 500})
 
-
 @csrf_exempt
 def subir_archivo(request):
     if request.method == 'POST' and request.FILES.get('archivo'):
@@ -67,10 +67,8 @@ def subir_archivo(request):
     
     return JsonResponse({"mensaje": "No se recibió ningún archivo", "status": 400})
 
-
 @csrf_exempt  # Solo si no estás usando CSRF en tus peticiones AJAX (ten cuidado con esto)
 def obtener_datos_view(request):
-
     print(1)
     # Recibir parámetros desde el request (pueden ser enviados como JSON o GET parameters)
     tabla_nombre = request.GET.get('tabla_nombre')
@@ -90,3 +88,19 @@ def obtener_datos_view(request):
     
     print(4)
     return JsonResponse(respuesta)
+
+def obtenerDatos(request):
+    try:
+        print(1)
+        jsonRecibido = request.GET.get('data')
+        print(jsonRecibido)
+
+        jsonInterpretado = json.loads(jsonRecibido)
+        print(jsonInterpretado)
+
+        resultados = construirQuery(jsonInterpretado)
+        
+        return JsonResponse({"resultados": resultados})
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)

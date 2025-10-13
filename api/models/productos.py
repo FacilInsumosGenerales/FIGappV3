@@ -33,7 +33,7 @@ class BdCotizacionesDeProveedores(models.Model):
     adjuntoFichaTecnica = models.CharField(max_length=300, null=True, blank=True)
     imagenReferencial = models.CharField(max_length=300, null=True, blank=True)
     imagenCotizacion = models.CharField(max_length=300, null=True, blank=True)
-    esImportacionDirecta = models.IntegerField()
+    esImportacionDirecta = models.IntegerField(null=True, blank=True)
     ediciones = models.TextField(null=True, blank=True)
 
     TRAZA = models.AutoField(primary_key=True)

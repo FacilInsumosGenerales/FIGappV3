@@ -18,12 +18,12 @@ class MovimientosLogisticos(models.Model):
 
 
 class GuiasEmitidas(models.Model):
-    OC_de_cliente = models.ForeignKey('DatosGeneralesOCsClientes', null=True, blank=True, on_delete=models.CASCADE)
-    Numero_Guia = models.CharField(max_length=300, null=True, blank=True)
-    Guia_sin_firma_PDF = models.CharField(max_length=300, null=True, blank=True)
-    Guia_firmada_PDF = models.CharField(max_length=300, null=True, blank=True)
-    Fecha_Emision = models.DateTimeField(null=True, blank=True)
-    Ediciones = models.TextField(null=True, blank=True)
+    ocDeCliente = models.ForeignKey('DatosGeneralesOCsClientes', null=True, blank=True, on_delete=models.CASCADE)
+    numeroGuia = models.CharField(max_length=300, null=True, blank=True)
+    guiaSinFirmaPdf = models.CharField(max_length=300, null=True, blank=True)
+    guiaFirmadaPdf = models.CharField(max_length=300, null=True, blank=True)
+    fechaEmision = models.DateTimeField(null=True, blank=True)
+    ediciones = models.TextField(null=True, blank=True)
 
     TRAZA = models.AutoField(primary_key=True)
 
