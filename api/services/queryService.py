@@ -1,16 +1,18 @@
 from django.db import connection
+from ..errores.handle import raise_error
+
 
 def construirQuery(jsonInterpretado):
     try:
         print("Creando el query")
 
+        nombreTabla = jsonInterpretado.get('nombreTabla')
         valorEnSelect = construirValorEnSelect(jsonInterpretado.get("informacionColumnas"))
         valorEnCruce = construirValorEnCruce(jsonInterpretado.get('tablaJoins',[]))
         valorEnCondicional = construirValorEnCondicional(jsonInterpretado.get('datosFiltro', []))
         valorEnAgrupado = construirValorEnAgrupado(jsonInterpretado.get('groupby',[]))
         valorEnCondicionalGrupo = construirValorEnCondicionalGrupo(jsonInterpretado.get('having'))
         valorEnOrdenar = construirValorEnOrdenar(jsonInterpretado.get('orderby',[]))
-        nombreTabla = jsonInterpretado.get('nombreTabla')
         
         with connection.cursor() as cursor:
             cursor.callproc(
@@ -23,18 +25,7 @@ def construirQuery(jsonInterpretado):
         return resultados
     except Exception as e:
         print("Error")
-
-        query = f"""
-            SELECT {valorEnSelect}
-            FROM {nombreTabla}
-            {valorEnCruce}
-            {valorEnCondicional}
-            {valorEnAgrupado}
-            {valorEnCondicionalGrupo}
-            {valorEnOrdenar};
-        """.strip()
-
-        return {"error": str(e), "query_generado": query}
+        raise_error("E999", f"Error al ejecutar la consulta: {str(e)}")
 
 def construirValorEnSelect(informacionColumnas):
     print("construirValorEnSelect")

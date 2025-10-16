@@ -1,8 +1,23 @@
-# mi_app/utils.py
 from django.apps import apps
 from django.db import IntegrityError
+from ..errores.handle import raise_error
 
-def guardar_datos_nuevos(tabla_nombre, datos_dict):
+
+def guardarDatosNuevosNuevo(tabla_nombre, datos_dict):
+    try:
+        modelo = apps.get_model('api', tabla_nombre)
+        if not modelo:
+            raise_error("E004", f"No se encontró el modelo '{tabla_nombre}' en la app 'api'")
+
+        instancia = modelo(**datos_dict)
+        instancia.save()
+
+        return {"mensaje": "Datos guardados correctamente"}
+    except Exception as e:
+        raise_error("E100", f"Error al ejecutar la consulta: {str(e)}")
+    
+
+def guardarDatosNuevos(tabla_nombre, datos_dict):
     try:
         modelo = apps.get_model('api', tabla_nombre)
         instancia = modelo(**datos_dict)
@@ -13,6 +28,7 @@ def guardar_datos_nuevos(tabla_nombre, datos_dict):
         return {"mensaje": f"Error de integridad: {str(e)}", "status": 400}
     except Exception as e:
         return {"mensaje": f"Error: {str(e)}", "status": 500}
+
 
 def actualizar_datos(tabla_nombre, datos_dict, filtro_dict):
     try:
@@ -34,6 +50,7 @@ def actualizar_datos(tabla_nombre, datos_dict, filtro_dict):
         return {"mensaje": f"Error de integridad: {str(e)}", "status": 400}
     except Exception as e:
         return {"mensaje": f"Error: {str(e)}", "status": 500}
+
 
 def obtener_datos_con_relaciones(tabla_nombre, columnas, filtros=None):
     try:

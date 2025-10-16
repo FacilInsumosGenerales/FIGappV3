@@ -1,10 +1,11 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .services.data_service import guardar_datos_nuevos, actualizar_datos,obtener_datos_con_relaciones
-from .services.query_service import construirQuery
+from .services.dataService import guardarDatosNuevos, actualizar_datos,obtener_datos_con_relaciones
+from .services.queryService import construirQuery
 import json
 import os
 from django.conf import settings
+from .utils.validacion import validarCamposRequeridos
 
 
 @csrf_exempt
@@ -19,7 +20,7 @@ def guardar(request):
                 return JsonResponse({"mensaje": "No se recibieron columnas", "status": 400})
 
             # Llamar a la función de guardar
-            resultado = guardar_datos_nuevos(nombreTabla, columnas)
+            resultado = guardarDatosNuevos(nombreTabla, columnas)
             return JsonResponse(resultado)
 
         except Exception as e:
@@ -42,6 +43,7 @@ def actualizar(request):
 
         except Exception as e:
             return JsonResponse({"mensaje": str(e), "status": 500})
+
 
 @csrf_exempt
 def subir_archivo(request):
@@ -67,6 +69,7 @@ def subir_archivo(request):
     
     return JsonResponse({"mensaje": "No se recibió ningún archivo", "status": 400})
 
+
 @csrf_exempt  # Solo si no estás usando CSRF en tus peticiones AJAX (ten cuidado con esto)
 def obtener_datos_view(request):
     print(1)
@@ -89,6 +92,7 @@ def obtener_datos_view(request):
     print(4)
     return JsonResponse(respuesta)
 
+@csrf_exempt  # Solo si no estás usando CSRF en tus peticiones AJAX (ten cuidado con esto)
 def obtenerDatos(request):
     try:
         print(1)
@@ -104,3 +108,31 @@ def obtenerDatos(request):
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+
+
+@csrf_exempt
+def guardarDatos(request):
+    if request.method == 'POST':
+        try:
+            print(1)
+
+            jsonRecibido = request.POST.get('data')
+            usuarioRecibido = request.POST.get('usuario')
+
+            hayVacio , campoFaltante = validarCamposRequeridos(
+                ('data',jsonRecibido), 
+                ('usuario',usuarioRecibido)
+            )
+
+            if hayVacio:
+                raise_error("E001", f"Falta {campoFaltante}")
+
+            print('jsonRecibido',jsonRecibido)
+            print('usuarioRecibido',usuarioRecibido)
+
+
+
+
+        except Exception as e:
+            return JsonResponse({"mensaje": str(e), "status": 500})
+
