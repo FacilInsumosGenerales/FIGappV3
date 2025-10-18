@@ -2,7 +2,8 @@
 ERROR_CATALOG = {
     "E001": {
         "type": "ValidationError",
-        "message": "El parámetro '{param}' está vacío o ausente."
+        "message": "El parámetro '{param}' está vacío o ausente.",
+        "status": 400
     },
     "E002": {
         "type": "ValidationError",
@@ -18,6 +19,7 @@ ERROR_CATALOG = {
     },
     "E999": {
         "type": "BaseAppException",
-        "message": "Error desconocido: {detail}"
+        "message": "Error desconocido: {detail}",
+        "status": 500
     }
 }

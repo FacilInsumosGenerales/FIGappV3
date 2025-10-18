@@ -23,4 +23,14 @@ class Reclamos(models.Model):
     TRAZA = models.AutoField(primary_key=True)
 
 
+class TablaPrueba(models.Model):
+    descripcion = models.CharField(max_length=300, null=True, blank=True)
+    codigoBarra = models.TextField(null=True, blank=True)
+    stock = models.IntegerField(null=True, blank=True)
+    anaquel = models.IntegerField(null=True, blank=True)
+    fechaIngreso = models.DateTimeField(null=True, blank=True)
+    fechaModificacion = models.DateTimeField(null=True, blank=True)
+    precio = models.DecimalField(max_digits=13, decimal_places=2, null=True, blank=True)
+    ediciones = models.TextField(null=True, blank=True)
 
+    TRAZA = models.AutoField(primary_key=True)
