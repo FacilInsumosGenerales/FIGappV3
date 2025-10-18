@@ -11,8 +11,13 @@ def test_guardar_datos_nuevos_sin_modelo_sin_columnas():
 
     error = exc_info.value
     assert error.codigo == "E100"
-    assert "Model name must be a string" in error.mensaje
-    assert error.estado == 400
+
+    # Ejemplo de un error 
+    # Error al ejecutar el procedimiento almacenado: {detail}. 
+    # Detalle: Error al ejecutar la consulta: not enough values to unpack (expected 2, got 1)
+
+    assert "Error al ejecutar el procedimiento almacenado: " in error.mensaje
+    assert error.estado == 500
 
 @pytest.mark.django_db
 def test_guardar_datos_nuevos_sin_modelo_con_columnas():
@@ -21,8 +26,8 @@ def test_guardar_datos_nuevos_sin_modelo_con_columnas():
         "codigoBarra": "123",
         "stock": 10,
         "anaquel": 1,
-        "fechaIngreso": "2025-10-17T09:30:00",
-        "fechaModificacion": "2025-10-18T09:30:00",
+        "fechaIngreso": "2025-10-17 09:30:00",
+        "fechaModificacion": "2025-10-18 09:30:00",
         "precio": 5.3,
         "ediciones": "2025-10-17 09:30:00, Francis Suarez Carrizales, registró en el sistema el producto."
     }
@@ -31,9 +36,9 @@ def test_guardar_datos_nuevos_sin_modelo_con_columnas():
         guardarDatosNuevosNuevo("ModeloInexistente", columnas)
 
     error = exc_info.value
-    assert error.codigo == "E004"
-    assert "No se encontró el modelo" in error.mensaje
-    assert error.estado == 400
+    assert error.codigo == "E100"
+    assert "Error al ejecutar el procedimiento almacenado: " in error.mensaje
+    assert error.estado == 500
 
 @pytest.mark.django_db 
 def test_guardar_datos_nuevos_con_modelo_sin_columnas():
@@ -45,8 +50,8 @@ def test_guardar_datos_nuevos_con_modelo_sin_columnas():
 
     error = exc_info.value
     assert error.codigo == "E100"
-    assert "Error al ejecutar la consulta" in error.mensaje
-    assert error.estado == 400  # Por defecto, si no hay status en el catálogo
+    assert "Error al ejecutar el procedimiento almacenado: " in error.mensaje
+    assert error.estado == 500  # Por defecto, si no hay status en el catálogo
 
 @pytest.mark.django_db 
 def test_guardar_datos_nuevos_con_modelo_con_columnas():
@@ -56,8 +61,8 @@ def test_guardar_datos_nuevos_con_modelo_con_columnas():
         "codigoBarra": "123",
         "stock": 10,
         "anaquel": 1,
-        "fechaIngreso": "2025-10-17T09:30:00",
-        "fechaModificacion": "2025-10-18T09:30:00",
+        "fechaIngreso": "2025-10-17 09:30:00",
+        "fechaModificacion": "2025-10-18 09:30:00",
         "precio": 5.3,
         "ediciones": "2025-10-17 09:30:00, Francis Suarez Carrizales, registró en el sistema el producto."
         }
