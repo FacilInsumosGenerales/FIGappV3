@@ -5,24 +5,25 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from ..utils.decoradores import manejarErroresVista
 from ..utils.validacion import validarCamposRequeridos, validarContenidoData
-from ..services.dataService import guardarDatosNuevosNuevo
+from ..services.dataService import actualizarDatos
 
 
 @method_decorator(csrf_exempt, name='dispatch')  # Aplica CSRF exempt a toda la clase
 @manejarErroresVista
-class GuardarDataView(View):
+class ActualizarDataView(View):
     def post(self, request, *args, **kwargs):
 
         jsonRecibido = request.POST.get('data')
-        usuario = request.POST.get('usuario')
-        validarCamposRequeridos(data=jsonRecibido, usuario=usuario)
+
+        validarCamposRequeridos(data=jsonRecibido)
 
         jsonInterpretado = json.loads(jsonRecibido, ['nombreTabla', 'columnas'])
         validarContenidoData(jsonInterpretado)
 
         columnas = jsonInterpretado.get('columnas')
         nombreTabla = jsonInterpretado.get('nombreTabla')
+        traza = jsonInterpretado.get('TRAZA')
 
-        resultados = guardarDatosNuevosNuevo(nombreTabla, columnas)
+        resultados = actualizarDatos(nombreTabla, columnas, {'TRAZA': traza})
         return jsonInterpretado(resultados)
 

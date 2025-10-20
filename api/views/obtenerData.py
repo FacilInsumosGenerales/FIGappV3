@@ -6,6 +6,8 @@ import json
 from ..services.queryService import construirQuery
 from ..utils.decoradores import manejarErroresVista
 from ..utils.validacion import validarCamposRequeridos
+from urllib.parse import unquote
+
 
 @method_decorator(csrf_exempt, name='dispatch')  # Aplica CSRF exempt a toda la clase
 @manejarErroresVista
@@ -16,8 +18,10 @@ class ObtenerDatosView(View):
         print(jsonRecibido)
 
         validarCamposRequeridos(data=jsonRecibido)
+        print("paso validacion")
 
         jsonInterpretado = json.loads(jsonRecibido)
+        print("interpreto")
         print(jsonInterpretado)
 
         resultados = construirQuery(jsonInterpretado)

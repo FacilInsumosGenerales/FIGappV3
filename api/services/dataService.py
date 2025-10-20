@@ -52,6 +52,28 @@ def actualizar_datos(tabla_nombre, datos_dict, filtro_dict):
         return {"mensaje": f"Error: {str(e)}", "status": 500}
 
 
+def actualizarDatos(tabla_nombre, datos_dict, filtro_dict):
+    try:
+        modelo = apps.get_model('api', tabla_nombre)
+        if not modelo:
+            raise_error("E004", f"No se encontro el modelo '{tabla_nombre}' en la api 'api'")
+        
+        objeto = modelo.objects.get(**filtro_dict)
+        
+        for campo, valor in datos_dict.items():
+            setattr(objeto, campo, valor)
+        
+        objeto.save()
+        return {"mensaje": "Datos actualizados correctamente", "status": 200}
+    
+    # except modelo.DoesNotExist:
+    #     return {"mensaje": "El objeto no existe", "status": 404}
+    except IntegrityError as e:
+        raise_error("E400",f"Error de integridad: {str(e)}")
+    except Exception as e:
+        raise_error("E500",f"Error: {str(e)}")
+
+
 def obtener_datos_con_relaciones(tabla_nombre, columnas, filtros=None):
     try:
         modelo = apps.get_model('api', tabla_nombre)
@@ -73,3 +95,4 @@ def obtener_datos_con_relaciones(tabla_nombre, columnas, filtros=None):
     
     except Exception as e:
         return {"mensaje": f"Error al obtener los datos: {str(e)}", "status": 500}
+

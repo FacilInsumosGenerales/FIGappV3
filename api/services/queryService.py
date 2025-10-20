@@ -6,7 +6,7 @@ def construirQuery(jsonInterpretado):
     try:
         print("Creando el query")
 
-        nombreTabla = jsonInterpretado.get('nombreTabla')
+        nombreTabla = 'api_' + jsonInterpretado.get('nombreTabla')
         valorEnSelect = construirValorEnSelect(jsonInterpretado.get("informacionColumnas"))
         valorEnCruce = construirValorEnCruce(jsonInterpretado.get('tablaJoins',[]))
         valorEnCondicional = construirValorEnCondicional(jsonInterpretado.get('datosFiltro', []))

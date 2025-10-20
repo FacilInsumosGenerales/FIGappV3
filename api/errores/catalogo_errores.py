@@ -17,6 +17,11 @@ ERROR_CATALOG = {
         "type": "DatabaseError",
         "message": "Error al ejecutar el procedimiento almacenado: {detail}"
     },
+    "E500": {
+        "type": "Exception",
+        "message": "Error en codigo: {detail}",
+        "status": 500
+    },
     "E999": {
         "type": "BaseAppException",
         "message": "Error desconocido: {detail}",
