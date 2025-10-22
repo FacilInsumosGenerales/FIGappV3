@@ -1,3 +1,3 @@
-from .obtenerData import ObtenerDatosView
-from .guardarData import GuardarDataView
-from .actualizarData import ActualizarDataView
+from .obtenerDataView import ObtenerDataView
+from .guardarDataView import GuardarDataView
+from .actualizarDataView import ActualizarDataView

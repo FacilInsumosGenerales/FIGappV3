@@ -17,6 +17,14 @@ ERROR_CATALOG = {
         "type": "DatabaseError",
         "message": "Error al ejecutar el procedimiento almacenado: {detail}"
     },
+    "E400": {
+        "type": "IntegrityError",
+        "message": "Error de integridad '{param}'"
+    },
+    "E404": {
+        "type": "DoesNotExist",
+        "message": "No se encontró ningún objeto que cumpla el filtro: '{param}'"
+    },
     "E500": {
         "type": "Exception",
         "message": "Error en codigo: {detail}",

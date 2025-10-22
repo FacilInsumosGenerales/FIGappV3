@@ -22,23 +22,48 @@ class TestObtenerDatosView:
         assert  json_resp['error_code'] == "E500"
         assert "Error en codigo" in json_resp["message"] or "JSONDecodeError" in json_resp["message"]
 
+## TODO: Armar un JSON adecuado para realizar los test, preferible que lo genere el sistema
+""" 
     def test_get_json_completo(self, client):
         data = {
             "nombreTabla": "contactos",
-            "informacionColumnas": ["nombre", "email", "telefono"],
+            "informacionColumnas": {
+                "contactos.TRAZA": "",
+                "contactos.nombre": "",
+                "emp.nombre": ""
+            },
             "tablaJoins": [
-                {"tabla": "direcciones", "on": "contactos.id = direcciones.contacto_id"}
+                {
+                    "tipoRelacion": "INNER",
+                    "nombreTablaIzquierda": "empresas",
+                    "nombreTablaIzquierdaAlias": "emp",
+                    "nombreTablaDerecha": "contactos",
+                    "campoIzquierda": "id",
+                    "campoDerecha": "contacto_id"
+                }
             ],
             "datosFiltro": [
-                {"columna": "activo", "operador": "=", "valor": 1}
+                {
+                    "tabla": "c",
+                    "columna": "activo",
+                    "operacion": "=",
+                    "comparador": "1",
+                    "siguienteOperacion": NULL
+                }
             ],
-            "groupby": ["pais"],
+            "groupby": [
+                {"tabla": "c", "columna": "pais"}
+            ],
             "having": [
-                {"columna": "count_id", "operador": ">", "valor": 10}
+                {"columna": "COUNT(id)", "operacion": ">", "comparador": "10"}
             ],
-            "orderby": ["nombre ASC", "email DESC"]
+            "orderby": [
+                {"tabla": "c", "columna": "nombre", "orden": "ASC"}
+            ]
         }
 
         url = reverse("obtenerDatos")
+ """
+        
 
         

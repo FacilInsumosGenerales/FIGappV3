@@ -24,6 +24,8 @@ class ActualizarDataView(View):
         nombreTabla = jsonInterpretado.get('nombreTabla')
         traza = jsonInterpretado.get('TRAZA')
 
-        resultados = actualizarDatos(nombreTabla, columnas, {'TRAZA': traza})
-        return jsonInterpretado(resultados)
+        resultado = actualizarDatos(nombreTabla, columnas, {'TRAZA': traza})
 
+        print("resultado", resultado)
+        return JsonResponse({"message": "Se actualizo correctamente","data": resultado})
+    

@@ -3,7 +3,7 @@ from django.db import IntegrityError
 from ..errores.handle import raise_error
 
 
-def guardarDatosNuevosNuevo(tabla_nombre, datos_dict):
+def guardarDatosNuevos(tabla_nombre, datos_dict):
     try:
         modelo = apps.get_model('api', tabla_nombre)
         if not modelo:
@@ -12,12 +12,18 @@ def guardarDatosNuevosNuevo(tabla_nombre, datos_dict):
         instancia = modelo(**datos_dict)
         instancia.save()
 
-        return {"mensaje": "Datos guardados correctamente"}
+        data_insertado = {
+            campo.name: getattr(instancia, campo.name)
+            for campo in modelo._meta.fields
+        }
+
+        return data_insertado
+
     except Exception as e:
         raise_error("E100", f"Error al ejecutar la consulta: {str(e)}")
     
 
-def guardarDatosNuevos(tabla_nombre, datos_dict):
+""" def guardarDatosNuevos(tabla_nombre, datos_dict):
     try:
         modelo = apps.get_model('api', tabla_nombre)
         instancia = modelo(**datos_dict)
@@ -28,9 +34,9 @@ def guardarDatosNuevos(tabla_nombre, datos_dict):
         return {"mensaje": f"Error de integridad: {str(e)}", "status": 400}
     except Exception as e:
         return {"mensaje": f"Error: {str(e)}", "status": 500}
+ """
 
-
-def actualizar_datos(tabla_nombre, datos_dict, filtro_dict):
+""" def actualizar_datos(tabla_nombre, datos_dict, filtro_dict):
     try:
         modelo = apps.get_model('api', tabla_nombre)
         
@@ -50,7 +56,7 @@ def actualizar_datos(tabla_nombre, datos_dict, filtro_dict):
         return {"mensaje": f"Error de integridad: {str(e)}", "status": 400}
     except Exception as e:
         return {"mensaje": f"Error: {str(e)}", "status": 500}
-
+ """
 
 def actualizarDatos(tabla_nombre, datos_dict, filtro_dict):
     try:
@@ -64,14 +70,13 @@ def actualizarDatos(tabla_nombre, datos_dict, filtro_dict):
             setattr(objeto, campo, valor)
         
         objeto.save()
-        return {"mensaje": "Datos actualizados correctamente", "status": 200}
+
+        return True
     
-    # except modelo.DoesNotExist:
-    #     return {"mensaje": "El objeto no existe", "status": 404}
+    except modelo.DoesNotExist:
+        raise_error("E404", {filtro_dict})
     except IntegrityError as e:
-        raise_error("E400",f"Error de integridad: {str(e)}")
-    except Exception as e:
-        raise_error("E500",f"Error: {str(e)}")
+        raise_error("E400",{str(e)})
 
 
 def obtener_datos_con_relaciones(tabla_nombre, columnas, filtros=None):

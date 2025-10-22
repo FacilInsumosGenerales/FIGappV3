@@ -1,5 +1,5 @@
 import pytest
-from api.services.dataService import guardarDatosNuevosNuevo
+from api.services.dataService import guardarDatosNuevos
 from api.models.otros import TablaPrueba
 from api.errores.excepciones import BaseAppException
 
@@ -7,7 +7,7 @@ from api.errores.excepciones import BaseAppException
 @pytest.mark.django_db
 def test_guardar_datos_nuevos_sin_modelo_sin_columnas():
     with pytest.raises(BaseAppException) as exc_info:
-        guardarDatosNuevosNuevo(None, None)
+        guardarDatosNuevos(None, None)
 
     error = exc_info.value
     assert error.codigo == "E100"
@@ -33,7 +33,7 @@ def test_guardar_datos_nuevos_sin_modelo_con_columnas():
     }
 
     with pytest.raises(BaseAppException) as exc_info:
-        guardarDatosNuevosNuevo("ModeloInexistente", columnas)
+        guardarDatosNuevos("ModeloInexistente", columnas)
 
     error = exc_info.value
     assert error.codigo == "E100"
@@ -46,7 +46,7 @@ def test_guardar_datos_nuevos_con_modelo_sin_columnas():
 
     # Esperamos que falle porque `datos_dict` es None
     with pytest.raises(BaseAppException) as exc_info:
-        guardarDatosNuevosNuevo(nombreTabla, None)
+        guardarDatosNuevos(nombreTabla, None)
 
     error = exc_info.value
     assert error.codigo == "E100"
@@ -57,6 +57,7 @@ def test_guardar_datos_nuevos_con_modelo_sin_columnas():
 def test_guardar_datos_nuevos_con_modelo_con_columnas():
     nombreTabla = "TablaPrueba"
     columnas = {
+        "TRAZA": 1,
         "descripcion": "Borrador", 
         "codigoBarra": "123",
         "stock": 10,
@@ -65,10 +66,10 @@ def test_guardar_datos_nuevos_con_modelo_con_columnas():
         "fechaModificacion": "2025-10-18 09:30:00",
         "precio": 5.3,
         "ediciones": "2025-10-17 09:30:00, Francis Suarez Carrizales, registró en el sistema el producto."
-        }
+    }
     
-    resultados = guardarDatosNuevosNuevo(nombreTabla,columnas)
+    resultado = guardarDatosNuevos(nombreTabla,columnas)
 
-    assert resultados['mensaje'] == "Datos guardados correctamente"
+    assert resultado == columnas
     assert TablaPrueba.objects.filter(descripcion="Borrador").exists()
 
