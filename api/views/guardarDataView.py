@@ -18,27 +18,15 @@ class GuardarDataView(View):
         jsonRecibido = request.POST.get('data')
         usuario = request.POST.get('usuario')
 
-        print("jsonRecibido")
-        print(jsonRecibido)
-        print("usuario")
-        print(usuario)
-
-        print("validando campos...")
         validarCamposRequeridos(data=jsonRecibido, usuario=usuario)
 
-        print("interpretar json")
         jsonInterpretado = json.loads(jsonRecibido)
 
-        print("validar contenido interpretado")
         validarContenidoData(jsonInterpretado, ['nombreTabla', 'columnas'])
-
 
         columnas = jsonInterpretado.get('columnas')
         nombreTabla = jsonInterpretado.get('nombreTabla')
-
-        print("Guardar datos")
         resultados = guardarDatosNuevos(nombreTabla, columnas)
 
-        print("resultados", resultados)
         return enviar_respuesta(data=resultados, message="Datos guardados correctamente")
 

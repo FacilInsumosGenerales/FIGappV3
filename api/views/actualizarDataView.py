@@ -14,18 +14,16 @@ class ActualizarDataView(View):
     def post(self, request, *args, **kwargs):
 
         jsonRecibido = request.POST.get('data')
-
         validarCamposRequeridos(data=jsonRecibido)
+        jsonInterpretado = json.loads(jsonRecibido)
 
-        jsonInterpretado = json.loads(jsonRecibido, ['nombreTabla', 'columnas'])
-        validarContenidoData(jsonInterpretado)
+        validarContenidoData(jsonInterpretado, ['nombreTabla', 'columnas','datosFiltro'])
 
         columnas = jsonInterpretado.get('columnas')
         nombreTabla = jsonInterpretado.get('nombreTabla')
-        traza = jsonInterpretado.get('TRAZA')
+        traza = jsonInterpretado.get('datosFiltro')[0].get("comparador")
 
         resultado = actualizarDatos(nombreTabla, columnas, {'TRAZA': traza})
 
-        print("resultado", resultado)
         return JsonResponse({"message": "Se actualizo correctamente","data": resultado})
     

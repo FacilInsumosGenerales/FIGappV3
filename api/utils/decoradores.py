@@ -11,8 +11,10 @@ def manejarErroresVista(view_class):
         try:
             return originalDispatch(self, request, *args, **kwargs)
         except BaseAppException as e:
+            print(e)
             return JsonResponse(e.aDiccionario(), status=e.estado)
         except Exception as e:
+            print(e)
             return JsonResponse({"error_code": "E500", "message": f"Error en codigo: {str(e)}"}, status=500)
     
     view_class.dispatch = nuevoDispatch

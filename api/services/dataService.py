@@ -3,13 +3,15 @@ from django.db import IntegrityError
 from ..errores.handle import raise_error
 
 
-def guardarDatosNuevos(tabla_nombre, datos_dict):
-    try:
-        modelo = apps.get_model('api', tabla_nombre)
-        if not modelo:
-            raise_error("E004", f"No se encontró el modelo '{tabla_nombre}' en la app 'api'")
+def guardarDatosNuevos(tabla_nombre, datos):
+    modelo = apps.get_model('api', tabla_nombre)
+    if not modelo:
+        raise_error("E004", f"No se encontró el modelo '{tabla_nombre}' en la app 'api'")
 
-        instancia = modelo(**datos_dict)
+    resultados = []
+
+    for fila in datos:
+        instancia = modelo(**fila)
         instancia.save()
 
         data_insertado = {
@@ -17,11 +19,9 @@ def guardarDatosNuevos(tabla_nombre, datos_dict):
             for campo in modelo._meta.fields
         }
 
-        return data_insertado
+        resultados.append(data_insertado)
 
-    except Exception as e:
-        raise_error("E100", f"Error al ejecutar la consulta: {str(e)}")
-    
+    return resultados
 
 """ def guardarDatosNuevos(tabla_nombre, datos_dict):
     try:
@@ -59,7 +59,6 @@ def guardarDatosNuevos(tabla_nombre, datos_dict):
  """
 
 def actualizarDatos(tabla_nombre, datos_dict, filtro_dict):
-    try:
         modelo = apps.get_model('api', tabla_nombre)
         if not modelo:
             raise_error("E004", f"No se encontro el modelo '{tabla_nombre}' en la api 'api'")
@@ -72,12 +71,6 @@ def actualizarDatos(tabla_nombre, datos_dict, filtro_dict):
         objeto.save()
 
         return True
-    
-    except modelo.DoesNotExist:
-        raise_error("E404", {filtro_dict})
-    except IntegrityError as e:
-        raise_error("E400",{str(e)})
-
 
 def obtener_datos_con_relaciones(tabla_nombre, columnas, filtros=None):
     try:

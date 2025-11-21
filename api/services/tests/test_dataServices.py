@@ -21,16 +21,18 @@ def test_guardar_datos_nuevos_sin_modelo_sin_columnas():
 
 @pytest.mark.django_db
 def test_guardar_datos_nuevos_sin_modelo_con_columnas():
-    columnas = {
-        "descripcion": "Borrador", 
-        "codigoBarra": "123",
-        "stock": 10,
-        "anaquel": 1,
-        "fechaIngreso": "2025-10-17 09:30:00",
-        "fechaModificacion": "2025-10-18 09:30:00",
-        "precio": 5.3,
-        "ediciones": "2025-10-17 09:30:00, Francis Suarez Carrizales, registró en el sistema el producto."
-    }
+    columnas = [
+        {
+            "descripcion": "Borrador", 
+            "codigoBarra": "123",
+            "stock": 10,
+            "anaquel": 1,
+            "fechaIngreso": "2025-10-17 09:30:00",
+            "fechaModificacion": "2025-10-18 09:30:00",
+            "precio": 5.3,
+            "ediciones": "2025-10-17 09:30:00, Francis Suarez Carrizales, registró en el sistema el producto."
+        }
+    ]
 
     with pytest.raises(BaseAppException) as exc_info:
         guardarDatosNuevos("ModeloInexistente", columnas)
@@ -56,20 +58,25 @@ def test_guardar_datos_nuevos_con_modelo_sin_columnas():
 @pytest.mark.django_db 
 def test_guardar_datos_nuevos_con_modelo_con_columnas():
     nombreTabla = "TablaPrueba"
-    columnas = {
-        "TRAZA": 1,
-        "descripcion": "Borrador", 
-        "codigoBarra": "123",
-        "stock": 10,
-        "anaquel": 1,
-        "fechaIngreso": "2025-10-17 09:30:00",
-        "fechaModificacion": "2025-10-18 09:30:00",
-        "precio": 5.3,
-        "ediciones": "2025-10-17 09:30:00, Francis Suarez Carrizales, registró en el sistema el producto."
-    }
+    columnas = [
+        {
+            "TRAZA": 1,
+            "descripcion": "Borrador", 
+            "codigoBarra": "123",
+            "stock": 10,
+            "anaquel": 1,
+            "fechaIngreso": "2025-10-17 09:30:00",
+            "fechaModificacion": "2025-10-18 09:30:00",
+            "precio": 5.3,
+            "ediciones": "2025-10-17 09:30:00, Francis Suarez Carrizales, registró en el sistema el producto."
+        }
+    ]
     
     resultado = guardarDatosNuevos(nombreTabla,columnas)
 
-    assert resultado == columnas
+    assert isinstance(resultado, list)
+    assert len(resultado) == 1
+
+    # Se insertó correctamente la fila
     assert TablaPrueba.objects.filter(descripcion="Borrador").exists()
 
