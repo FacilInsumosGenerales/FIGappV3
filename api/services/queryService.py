@@ -1,5 +1,6 @@
 from django.db import connection
 from ..errores.handle import raise_error
+import json
 
 
 def construirQuery(jsonInterpretado):
@@ -99,3 +100,50 @@ def construirValorEnOrdenar(orderby):
         orden = o["orden"]
         partes.append(f"{tabla + '.' if tabla else ''}{col} {orden}")
     return "ORDER BY " + ", ".join(partes)
+
+def armarCallParaProcedimiento(jsonInterpretado,procedimiento):
+    filtro = jsonInterpretado.get("datosFiltro", "")
+    filtroAdi = jsonInterpretado.get("spParam", "")
+    columnas = jsonInterpretado.get("informacionColumnas", {})
+    tabla = jsonInterpretado.get("nombreTabla")
+
+    if procedimiento == "dashboard-administrador":
+        nameProc = "adminReport"
+        filtroSp = crearFiltro(filtro, filtroAdi)
+
+    elif procedimiento == "duplicarFilasConjuntoTraza":
+        nameProc = procedimiento
+
+        filtroTabla = f"'{tabla}'"
+        filtroTraza = f"'{json.dumps(columnas.get('trazasADuplicar', []))}'"
+        filtroCampos = f"'{json.dumps(columnas.get('camposCambiados', {}), ensure_ascii=False)}'"
+
+        filtroSp = f"{filtroTabla}, {filtroTraza}, {filtroCampos}"
+
+    else:
+        nameProc = procedimiento
+        filtroSp = crearFiltro(filtro, filtroAdi)
+
+    return f"CALL {nameProc}({filtroSp})"
+
+def crearFiltro(filtro, filtroAdi):
+    filtroFormateado = ""
+
+    if isinstance(filtro, list) and filtro and "comparador" in filtro[0]:
+        filtroFormateado = eliminarAnd(filtro[0]["comparador"])
+
+    if isinstance(filtroAdi, list) and filtroAdi:
+        filtroFormateado = formatearParametrosAdicionales(filtroFormateado, filtroAdi)
+
+    return filtroFormateado
+
+def eliminarAnd(filtro):
+    return filtro.replace(" AND ", " , ")
+
+def formatearParametrosAdicionales(filtro, filtroAdi):
+    parametros = ",".join(f"'{p}'" for p in filtroAdi)
+
+    if filtro:
+        return f"{filtro},{parametros}"
+    return parametros
+
