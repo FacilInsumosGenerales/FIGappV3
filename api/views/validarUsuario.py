@@ -20,9 +20,9 @@ class ValidarUsuario(View):
         jsonInterpretado = json.loads(jsonRecibido)
 
         resultados = autenticarUsuario(jsonInterpretado)
-
-        if(resultados.esUsuario):
-            return enviar_respuesta(data=resultados.data, message=resultados.mensaje)
+        print(resultados)
+        if(resultados["esUsuario"]):
+            return enviar_respuesta(data=resultados["data"], message=resultados["mensaje"])
         else:
-            return enviar_respuesta(data=resultados.data, message=resultados.mensaje)
+            return enviar_respuesta(data=resultados["data"], message=resultados["mensaje"])
 

@@ -11,9 +11,9 @@ from ..services.dataService import actualizarDatos
 @method_decorator(csrf_exempt, name='dispatch')  # Aplica CSRF exempt a toda la clase
 @manejarErroresVista
 class ActualizarDataView(View):
-    def post(self, request, *args, **kwargs):
+    def put(self, request, *args, **kwargs):
 
-        jsonRecibido = request.POST.get('data')
+        jsonRecibido = request.PUT.get('data')
         validarCamposRequeridos(data=jsonRecibido)
         jsonInterpretado = json.loads(jsonRecibido)
 
