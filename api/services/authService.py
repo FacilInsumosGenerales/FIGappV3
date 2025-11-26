@@ -1,6 +1,6 @@
 from api.models import Usuarios
-from passlib.hash import bcrypt
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password, make_password
+
 
 def autenticarUsuario(jsonInterpretado):
     clave = jsonInterpretado['datosFiltro'][0]['comparador'].strip()
@@ -15,17 +15,26 @@ def autenticarUsuario(jsonInterpretado):
             "mensaje": "Usuario o contraseña incorrectos"
         }
 
-    print(usuario_obj.password)
-    print(clave)
+    hash_db = usuario_obj.password
 
-    # Usamos la función genérica
-    if not verificarPasswordPhp(clave, usuario_obj.password):
+    print("HASH DB:", hash_db)
+    print("CLAVE INGRESADA:", clave)
+
+    if hash_db.startswith("pbkdf2_"):
+        if not check_password(clave, hash_db):
+            return {
+                "esUsuario": False,
+                "mensaje": "Usuario o contraseña incorrectos",
+                "data": None
+            }
+
+    else:
         return {
             "esUsuario": False,
-            "data": None,
-            "mensaje": "Usuario o contraseña incorrectos"
+            "mensaje": "Formato de hash no soportado",
+            "data": None
         }
-    
+
     return {
         "esUsuario": True,
         "data": {
@@ -38,17 +47,6 @@ def autenticarUsuario(jsonInterpretado):
         "mensaje": "Autenticación exitosa"
     }
 
-def verificarPasswordPhp(clave, hash_php):
-    """
-    Verifica una contraseña en texto plano contra un hash generado por PHP.
-    Devuelve True si coinciden, False si no.
-    """
-    try:
-        return bcrypt.verify(clave, hash_php)
-    except ValueError:
-        # Esto captura errores de formato o salt inválido
-        return False
-    
 def cambiarClave(usuario, clave):
 
     usuarioObj = Usuarios.objects.get(usuario=usuario)
