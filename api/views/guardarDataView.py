@@ -21,10 +21,10 @@ class GuardarDataView(View):
         validarCamposRequeridos(data=jsonRecibido, usuario=usuario)
 
         jsonInterpretado = json.loads(jsonRecibido)
+        print(jsonInterpretado)
+        validarContenidoData(jsonInterpretado, ['nombreTabla', 'informacionColumnas'])
 
-        validarContenidoData(jsonInterpretado, ['nombreTabla', 'columnas'])
-
-        columnas = jsonInterpretado.get('columnas')
+        columnas = jsonInterpretado.get('informacionColumnas')
         nombreTabla = jsonInterpretado.get('nombreTabla')
         resultados = guardarDatosNuevos(nombreTabla, columnas)
 

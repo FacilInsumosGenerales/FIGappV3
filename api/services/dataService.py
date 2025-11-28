@@ -1,7 +1,6 @@
 from django.apps import apps
-from django.db import IntegrityError
 from ..errores.handle import raise_error
-
+from django.forms.models import model_to_dict
 
 def guardarDatosNuevos(tabla_nombre, datos):
     modelo = apps.get_model('api', tabla_nombre)
@@ -61,9 +60,16 @@ def guardarDatosNuevos(tabla_nombre, datos):
 def actualizarDatos(tabla_nombre, datos_dict, filtro_dict):
         modelo = apps.get_model('api', tabla_nombre)
         if not modelo:
-            raise_error("E004", f"No se encontro el modelo '{tabla_nombre}' en la api 'api'")
+            raise_error("E004", f"No se encontro el modelo '{tabla_nombre}' en la api")
         
         objeto = modelo.objects.get(**filtro_dict)
+
+        if "edicion" in [field.name for field in modelo._meta.get_fields()]:
+            if "edicion" in datos_dict:
+                texto_nuevo = datos_dict["edicion"]
+                texto_anterior = getattr(objeto, "edicion", "") or ""
+
+                datos_dict["edicion"] = f"{texto_anterior}{texto_nuevo}"
         
         for campo, valor in datos_dict.items():
             setattr(objeto, campo, valor)

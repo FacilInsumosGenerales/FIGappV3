@@ -6,24 +6,26 @@ import json
 from ..utils.decoradores import manejarErroresVista
 from ..utils.validacion import validarCamposRequeridos, validarContenidoData
 from ..services.dataService import actualizarDatos
+from ..utils.funcionesGenerales import enviar_respuesta
 
 
 @method_decorator(csrf_exempt, name='dispatch')  # Aplica CSRF exempt a toda la clase
 @manejarErroresVista
 class ActualizarDataView(View):
-    def put(self, request, *args, **kwargs):
-
-        jsonRecibido = request.PUT.get('data')
+    def post(self, request, *args, **kwargs):
+        print(1)
+        jsonRecibido = request.POST.get('data')
         validarCamposRequeridos(data=jsonRecibido)
         jsonInterpretado = json.loads(jsonRecibido)
 
-        validarContenidoData(jsonInterpretado, ['nombreTabla', 'columnas','datosFiltro'])
-
-        columnas = jsonInterpretado.get('columnas')
+        validarContenidoData(jsonInterpretado, ['nombreTabla', 'informacionColumnas','datosFiltro'])
+        
+        columnas = jsonInterpretado.get('informacionColumnas')
         nombreTabla = jsonInterpretado.get('nombreTabla')
         traza = jsonInterpretado.get('datosFiltro')[0].get("comparador")
 
         resultado = actualizarDatos(nombreTabla, columnas, {'TRAZA': traza})
 
-        return JsonResponse({"message": "Se actualizo correctamente","data": resultado})
+        return enviar_respuesta(message="Se actualizo correctamente",data=resultado)
+    
     

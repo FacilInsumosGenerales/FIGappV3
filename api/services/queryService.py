@@ -37,8 +37,8 @@ def construirValorEnCruce(tablaJoins):
     print("construirValorEnCruce")
     for join in tablaJoins:
         tipo = join.get("tipoRelacion", "")
-        izq = join.get("nombreTablaIzquierda", "")
-        der = join.get("nombreTablaDerecha", "")
+        izq = "api_" + join.get("nombreTablaIzquierda", "")
+        der = "api_" + join.get("nombreTablaDerecha", "")
         campoIzq = join.get("campoIzquierda", "")
         campoDer = join.get("campoDerecha", "")
         campoAlias = join.get("nombreTablaIzquierdaAlias", "")
@@ -107,24 +107,28 @@ def armarCallParaProcedimiento(jsonInterpretado,procedimiento):
     columnas = jsonInterpretado.get("informacionColumnas", {})
     tabla = jsonInterpretado.get("nombreTabla")
 
-    if procedimiento == "dashboard-administrador":
-        nameProc = "adminReport"
-        filtroSp = crearFiltro(filtro, filtroAdi)
-
-    elif procedimiento == "duplicarFilasConjuntoTraza":
-        nameProc = procedimiento
-
-        filtroTabla = f"'{tabla}'"
-        filtroTraza = f"'{json.dumps(columnas.get('trazasADuplicar', []))}'"
-        filtroCampos = f"'{json.dumps(columnas.get('camposCambiados', {}), ensure_ascii=False)}'"
-
-        filtroSp = f"{filtroTabla}, {filtroTraza}, {filtroCampos}"
-
+    if procedimiento == "duplicarFilasConjuntoTraza":
+        filtroSp = duplicarFilas(tabla,columnas)
     else:
-        nameProc = procedimiento
         filtroSp = crearFiltro(filtro, filtroAdi)
 
-    return f"CALL {nameProc}({filtroSp})"
+    sql_call = f"CALL {procedimiento}({filtroSp})"
+
+    with connection.cursor() as cursor:
+            cursor.execute(sql_call)
+            try:
+                resultado_sp = cursor.fetchall()
+            except:
+                resultado_sp = "SP ejecutado sin retorno"
+    
+    return resultado_sp
+
+def duplicarFilas(tabla, columnas):
+    filtroTabla = f"'{tabla}'"
+    filtroTraza = f"'{json.dumps(columnas.get('trazasADuplicar', []))}'"
+    filtroCampos = f"'{json.dumps(columnas.get('camposCambiados', {}), ensure_ascii=False)}'"
+
+    return f"{filtroTabla}, {filtroTraza}, {filtroCampos}"
 
 def crearFiltro(filtro, filtroAdi):
     filtroFormateado = ""
