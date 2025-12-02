@@ -14,7 +14,7 @@ class ObtenerDataView(View):
     def get(self, request, *args, **kwargs):
         print(1)
         jsonRecibido = request.GET.get('data')
-
+        print(jsonRecibido)
         validarCamposRequeridos(data=jsonRecibido)
 
         jsonInterpretado = json.loads(jsonRecibido)

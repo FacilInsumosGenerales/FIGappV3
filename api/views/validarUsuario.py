@@ -14,7 +14,7 @@ class ValidarUsuario(View):
     def get(self, request, *args, **kwargs):
         print(1)
         jsonRecibido = request.GET.get('data')
-
+        
         validarCamposRequeridos(data=jsonRecibido)
 
         jsonInterpretado = json.loads(jsonRecibido)

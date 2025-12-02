@@ -80,7 +80,7 @@ class PagosRelacionados(models.Model):
 
 
 class Detracciones(models.Model):
-    comprobante_de_pago = models.ForeignKey('ComprobantesDePago', null=True, blank=True, on_delete=models.SET_NULL)
+    comprobanteDePago = models.ForeignKey('ComprobantesDePago', null=True, blank=True, on_delete=models.SET_NULL)
     fecha = models.DateTimeField(null=True, blank=True)
     valor = models.DecimalField(max_digits=13, decimal_places=2, null=True, blank=True)
     moneda = models.CharField(max_length=3, null=True, blank=True)

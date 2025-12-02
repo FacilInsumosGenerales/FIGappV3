@@ -38,15 +38,15 @@ def construirValorEnCruce(tablaJoins):
     for join in tablaJoins:
         tipo = join.get("tipoRelacion", "")
         izq = "api_" + join.get("nombreTablaIzquierda", "")
-        der = "api_" + join.get("nombreTablaDerecha", "")
+        der = join.get("nombreTablaDerecha", "")
         campoIzq = join.get("campoIzquierda", "")
         campoDer = join.get("campoDerecha", "")
         campoAlias = join.get("nombreTablaIzquierdaAlias", "")
 
-        sentenciaConAlias = f" {campoAlias}" if campoAlias else ""
+        sentenciaConAlias = f"{campoAlias}" if campoAlias else ""
         condicion = f"{campoAlias or izq}.{campoIzq} = {der}.{campoDer}"
-        joins.append(f"{tipo} JOIN {izq}{sentenciaConAlias} ON {condicion}")
-
+        joins.append(f"{tipo} JOIN {izq} {sentenciaConAlias} ON {condicion}")
+    print(joins)
     return " ".join(joins)
 
 def construirValorEnCondicional(datosFiltro):
