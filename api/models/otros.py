@@ -19,6 +19,7 @@ class Reclamos(models.Model):
     archivoResolucion = models.CharField(max_length=300, null=True, blank=True)
     fechaResolucion = models.DateTimeField(null=True, blank=True)
     ediciones = models.TextField(null=True, blank=True)
+    estado = models.IntegerField(null=True,blank=True)
 
     TRAZA = models.AutoField(primary_key=True)
 

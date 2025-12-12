@@ -15,7 +15,7 @@ class DatosGeneralesDelProceso(models.Model):
     gmPorcentajeDeseado = models.DecimalField(max_digits=11, decimal_places=2, null=True, blank=True)
     productoEntregado = models.CharField(max_length=300, null=True, blank=True)    
     ediciones = models.TextField(null=True, blank=True)
-    encargado = models.ForeignKey('Usuarios',blank=True,on_delete=models.CASCADE)
+    encargado = models.ForeignKey('Usuarios',blank=True,on_delete=models.CASCADE, null=True)
 
     TRAZA = models.AutoField(primary_key=True)
 

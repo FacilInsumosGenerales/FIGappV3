@@ -2,47 +2,16 @@ version: '3.8'
 
 services:
   web:
-      build: .
-      container_name: django_app
-      command: sh -c "sleep 15 && python manage.py runserver 0.0.0.0:8000"
-      volumes:
-        - .:/usr/src/app
-      ports:
-        - "8000:8000"
-      depends_on:
-        - db
-      environment:
-        MYSQL_DATABASE: facilins_AppV3_produccion
-        MYSQL_USER: user_produccion
-        MYSQL_PASSWORD: C6!~g(nAk?qR
-        MYSQL_HOST: db # Usa el nombre del servicio de la DB en Docker Compose
-        MYSQL_PORT: 3306
-  db:
-    image: mysql:8.0
-    container_name: mysql_db
-    restart: always
-    environment:
-      MYSQL_DATABASE: facilins_AppV3_produccion
-      MYSQL_USER: user_produccion
-      MYSQL_PASSWORD: C6!~g(nAk?qR
-      MYSQL_ROOT_PASSWORD: rootpassword
-    ports:
-      - "3306:3306"
+    build: .
+    container_name: django_app
+    command: sh -c "sleep 15 && python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - mysql_data:/var/lib/mysql
-    command: --host_cache_size=0
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
-    restart: always
-    environment:
-      PMA_HOST: db           # apunta al servicio MySQL
-      PMA_USER: root
-      PMA_PASSWORD: rootpassword
+      - .:/usr/src/app
     ports:
-      - "8080:80"            # accedes desde http://localhost:8080
-    depends_on:
-      - db
-volumes:
-  mysql_data: 
-
+      - "8000:8000"
+    environment:
+      MYSQL_DATABASE: figsac
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: C6!~g(nAk?qR
+      MYSQL_HOST: database-1.c9q8q0m0uoth.us-east-2.rds.amazonaws.com  # Pones aquí tu endpoint de RDS
+      MYSQL_PORT: 3306

@@ -9,7 +9,7 @@ class MovimientosLogisticos(models.Model):
     fechaPlaneada = models.DateTimeField(null=True, blank=True)
     fechaReal = models.DateTimeField(null=True, blank=True)
     transportista = models.ForeignKey('Empresas', null=True, blank=True, on_delete=models.CASCADE)
-    folderImagenes = models.CharField(max_length=300, null=True, blank=True)
+    folderImagenes = models.CharField(max_length=500, null=True, blank=True)
     estado = models.IntegerField(default=0)
     movimientoBancario = models.ForeignKey('ComprobantesDePago', null=True, blank=True, on_delete=models.CASCADE)
     ediciones = models.TextField(null=True, blank=True)

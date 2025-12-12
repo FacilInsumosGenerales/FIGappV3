@@ -1,6 +1,7 @@
 from django.apps import apps
 from ..errores.handle import raise_error
-from django.forms.models import model_to_dict
+from django.db import connection
+
 
 def guardarDatosNuevos(tabla_nombre, datos):
     modelo = apps.get_model('api', tabla_nombre)
@@ -8,54 +9,40 @@ def guardarDatosNuevos(tabla_nombre, datos):
         raise_error("E004", f"No se encontró el modelo '{tabla_nombre}' en la app 'api'")
 
     resultados = []
+    insert_ids = []
 
     for fila in datos:
         instancia = modelo(**fila)
         instancia.save()
 
-        data_insertado = {
-            campo.name: getattr(instancia, campo.name)
-            for campo in modelo._meta.fields
-        }
+        # Guardar el id insertado
+        insert_ids.append(instancia.pk)
 
+        data_insertado = {}
+        for campo in modelo._meta.fields:
+            valor = getattr(instancia, campo.name)
+            if hasattr(valor, 'pk'):
+                valor = valor.pk
+            data_insertado[campo.name] = valor
         resultados.append(data_insertado)
+
+    ejecutarPostInserts(tabla_nombre, insert_ids)
 
     return resultados
 
-""" def guardarDatosNuevos(tabla_nombre, datos_dict):
-    try:
-        modelo = apps.get_model('api', tabla_nombre)
-        instancia = modelo(**datos_dict)
-        instancia.save()
-        return {"mensaje": "Datos guardados correctamente", "status": 200}
-    
-    except IntegrityError as e:
-        return {"mensaje": f"Error de integridad: {str(e)}", "status": 400}
-    except Exception as e:
-        return {"mensaje": f"Error: {str(e)}", "status": 500}
- """
 
-""" def actualizar_datos(tabla_nombre, datos_dict, filtro_dict):
-    try:
-        modelo = apps.get_model('api', tabla_nombre)
-        
-        # Buscamos el objeto usando el filtro y lo actualizamos
-        objeto = modelo.objects.get(**filtro_dict)
-        
-        # Actualizamos los campos del objeto con los nuevos datos
-        for campo, valor in datos_dict.items():
-            setattr(objeto, campo, valor)
-        
-        objeto.save()
-        return {"mensaje": "Datos actualizados correctamente", "status": 200}
-    
-    except modelo.DoesNotExist:
-        return {"mensaje": "El objeto no existe", "status": 404}
-    except IntegrityError as e:
-        return {"mensaje": f"Error de integridad: {str(e)}", "status": 400}
-    except Exception as e:
-        return {"mensaje": f"Error: {str(e)}", "status": 500}
- """
+def ejecutarPostInserts(tabla_nombre, insert_ids):
+    if not insert_ids:
+        return
+
+    primerid = insert_ids[0]
+
+    with connection.cursor() as cursor:
+        if tabla_nombre.lower() == "datosgeneralesdelproceso":
+            cursor.execute("CALL cod_insert_requerimiento(%s)", [primerid])
+
+        elif tabla_nombre.lower() == "datosgeneralesordencompraproveedores":
+            cursor.execute("CALL cod_insert_ocproveedor(%s)", [primerid])
 
 def actualizarDatos(tabla_nombre, datos_dict, filtro_dict):
         modelo = apps.get_model('api', tabla_nombre)

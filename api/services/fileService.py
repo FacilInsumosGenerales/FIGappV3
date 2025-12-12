@@ -3,6 +3,7 @@ import random
 import string
 from datetime import datetime
 from django.conf import settings
+from openpyxl import load_workbook
 
 
 def procesarSubidaArchivo(archivo):
@@ -36,3 +37,27 @@ def guardarArchivo(rutaArchivo,archivo):
         for chunk in archivo.chunks():
             destino.write(chunk)
   
+def obtenerFilasDeExcel(archivo, ignorarColumnas, extraColunmnas):
+    wb = load_workbook(archivo)
+    ws = wb.active
+
+    headers = [c.value for c in ws[1]]
+
+    filas = []
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        filaDict = {}
+
+        for i, valor in enumerate(row):
+            col = headers[i]
+
+            if ignorarColumnas and col in ignorarColumnas:
+                continue
+
+            filaDict[col] = valor
+
+        if extraColunmnas:
+            filaDict.update(extraColunmnas)
+
+        filas.append(filaDict)
+
+    return filas

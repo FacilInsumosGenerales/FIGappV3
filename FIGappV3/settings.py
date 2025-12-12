@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-^(ifw9*x0qo)%tpng(6c*ym7@r)$r*2l7e(2**h!_u*ic4u$-f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["3.14.87.62", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,7 +53,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'FIGappV3.urls'
@@ -89,10 +89,10 @@ WSGI_APPLICATION = 'FIGappV3.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('MYSQL_DATABASE', 'facilins_AppV3_produccion'),
-        'USER': os.getenv('MYSQL_USER', 'user_produccion'),
+        'NAME': os.getenv('MYSQL_DATABASE', 'figsac'),
+        'USER': os.getenv('MYSQL_USER', 'admin'),
         'PASSWORD': os.getenv('MYSQL_PASSWORD', 'C6!~g(nAk?qR'),
-        'HOST': os.getenv('MYSQL_HOST', 'db'),
+        'HOST': os.getenv('MYSQL_HOST', 'database-1.c9q8q0m0uoth.us-east-2.rds.amazonaws.com'),
         'PORT': os.getenv('MYSQL_PORT', '3306'),
     }
 }
@@ -150,3 +150,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+from corsheaders.defaults import default_headers
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'cache-control',
+]
