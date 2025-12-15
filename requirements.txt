@@ -5,3 +5,5 @@ pytest==7.4.0
 pytest-django==4.5.2
 passlib[bcrypt]
 openpyxl
+boto3
+django-storages

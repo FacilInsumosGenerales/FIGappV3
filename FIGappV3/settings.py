@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-^(ifw9*x0qo)%tpng(6c*ym7@r)$r*2l7e(2**h!_u*ic4u$-f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["3.14.87.62", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["3.14.87.62", "localhost", "127.0.0.1","13.58.67.101"]
 
 
 # Application definition
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'Comercial',
     'api',
     'corsheaders',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -138,7 +139,7 @@ STATICFILES_DIRS = [
 ]
 
 # Subir archivos
-MEDIA_URL = '/media/'
+""" MEDIA_URL = '/media/' """
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
@@ -156,3 +157,22 @@ from corsheaders.defaults import default_headers
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'cache-control',
 ]
+
+# S3
+AWS_ACCESS_KEY_ID = 'AKIAXYNG373SVQW36GML'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'bucket533462777573'
+AWS_S3_REGION_NAME = 'us-east-2'
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+
+AWS_DEFAULT_ACL = None
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_FILE_OVERWRITE = False
+
+MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+

@@ -4,27 +4,24 @@ import string
 from datetime import datetime
 from django.conf import settings
 from openpyxl import load_workbook
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 
 
 def procesarSubidaArchivo(archivo):
-    carpetaRelativa, carpetaAbsoluta = crearCarpeta()
+    carpetaRelativa, _ = crearCarpeta()
     nombreUnico = generarNombreUnico(archivo)
 
-    rutaArchivo = os.path.join(carpetaAbsoluta, nombreUnico)
+    rutaArchivo = f"{carpetaRelativa}/{nombreUnico}"
 
     guardarArchivo(rutaArchivo, archivo)
 
-    return f"{settings.MEDIA_URL}{carpetaRelativa}/{nombreUnico}"
+    return f"{rutaArchivo}"
   
 def crearCarpeta():
     fecha = datetime.now().strftime("%Y-%m-%d")
-
-    carpetaRelativa = f"fileStore/{fecha}"
-    carpetaAbsoluta = os.path.join(settings.MEDIA_ROOT, carpetaRelativa)
-
-    os.makedirs(carpetaAbsoluta, exist_ok=True)
-
-    return carpetaRelativa, carpetaAbsoluta
+    carpetaRelativa = f"FileStore/{fecha}"
+    return carpetaRelativa, None
 
 def generarNombreUnico(archivo):
     extension = os.path.splitext(archivo.name)[1]
@@ -33,9 +30,10 @@ def generarNombreUnico(archivo):
     return nombre + extension
 
 def guardarArchivo(rutaArchivo,archivo):
-    with open(rutaArchivo, "wb+") as destino:
-        for chunk in archivo.chunks():
-            destino.write(chunk)
+    default_storage.save(
+        rutaArchivo,
+        ContentFile(archivo.read())
+    )
   
 def obtenerFilasDeExcel(archivo, ignorarColumnas, extraColunmnas):
     wb = load_workbook(archivo)
@@ -61,3 +59,4 @@ def obtenerFilasDeExcel(archivo, ignorarColumnas, extraColunmnas):
         filas.append(filaDict)
 
     return filas
+

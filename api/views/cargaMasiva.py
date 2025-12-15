@@ -14,6 +14,7 @@ class CargaMasivaView(View):
     
     def post(self, request, *args, **kwargs):
         print(1)
+        print("cargaMasiva")
         archivo = request.FILES.get("archivo")
 
         tabla = request.POST.get("tabla")

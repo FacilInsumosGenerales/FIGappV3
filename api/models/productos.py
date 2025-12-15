@@ -35,6 +35,7 @@ class BdCotizacionesDeProveedores(models.Model):
     imagenCotizacion = models.CharField(max_length=300, null=True, blank=True)
     esImportacionDirecta = models.IntegerField(null=True, blank=True)
     ediciones = models.TextField(null=True, blank=True)
+    garantia = models.IntegerField(null=True, blank=True)
 
     TRAZA = models.AutoField(primary_key=True)
 
