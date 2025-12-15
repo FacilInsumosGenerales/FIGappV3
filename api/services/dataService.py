@@ -51,12 +51,12 @@ def actualizarDatos(tabla_nombre, datos_dict, filtro_dict):
         
         objeto = modelo.objects.get(**filtro_dict)
 
-        if "edicion" in [field.name for field in modelo._meta.get_fields()]:
-            if "edicion" in datos_dict:
-                texto_nuevo = datos_dict["edicion"]
-                texto_anterior = getattr(objeto, "edicion", "") or ""
+        if "ediciones" in [field.name for field in modelo._meta.get_fields()]:
+            if "ediciones" in datos_dict:
+                texto_nuevo = datos_dict["ediciones"]
+                texto_anterior = getattr(objeto, "ediciones", "") or ""
 
-                datos_dict["edicion"] = f"{texto_anterior}{texto_nuevo}"
+                datos_dict["ediciones"] = f"{texto_anterior}{texto_nuevo}"
         
         for campo, valor in datos_dict.items():
             setattr(objeto, campo, valor)

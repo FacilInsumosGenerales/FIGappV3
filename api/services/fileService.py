@@ -41,6 +41,9 @@ def obtenerFilasDeExcel(archivo, ignorarColumnas, extraColunmnas):
 
     headers = [c.value for c in ws[1]]
 
+    fechaActual = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    edicionValor = f"{fechaActual}, Sistema , Dato ingreso por lote"
+
     filas = []
     for row in ws.iter_rows(min_row=2, values_only=True):
         filaDict = {}
@@ -52,6 +55,8 @@ def obtenerFilasDeExcel(archivo, ignorarColumnas, extraColunmnas):
                 continue
 
             filaDict[col] = valor
+
+        filaDict['ediciones'] = edicionValor
 
         if extraColunmnas:
             filaDict.update(extraColunmnas)
