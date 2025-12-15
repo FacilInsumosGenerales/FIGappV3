@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-^(ifw9*x0qo)%tpng(6c*ym7@r)$r*2l7e(2**h!_u*ic4u$-f'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -90,11 +90,11 @@ WSGI_APPLICATION = 'FIGappV3.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('MYSQL_DATABASE', 'figsac'),
-        'USER': os.getenv('MYSQL_USER', 'admin'),
-        'PASSWORD': os.getenv('MYSQL_PASSWORD', 'C6!~g(nAk?qR'),
-        'HOST': os.getenv('MYSQL_HOST', 'database-1.c9q8q0m0uoth.us-east-2.rds.amazonaws.com'),
-        'PORT': os.getenv('MYSQL_PORT', '3306'),
+        'NAME': os.getenv('MYSQL_DATABASE'),
+        'USER': os.getenv('MYSQL_USER'),
+        'PASSWORD': os.getenv('MYSQL_PASSWORD'),
+        'HOST': os.getenv('MYSQL_HOST'),
+        'PORT': os.getenv('MYSQL_PORT'),
     }
 }
 
@@ -138,12 +138,6 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
-# Subir archivos
-""" MEDIA_URL = '/media/' """
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -159,10 +153,10 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 ]
 
 # S3
-AWS_ACCESS_KEY_ID = 'AKIAXYNG373SVQW36GML'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'bucket533462777573'
-AWS_S3_REGION_NAME = 'us-east-2'
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
 AWS_S3_SIGNATURE_VERSION = 's3v4'
 
 AWS_DEFAULT_ACL = None

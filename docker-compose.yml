@@ -9,9 +9,5 @@ services:
       - .:/usr/src/app
     ports:
       - "8000:8000"
-    environment:
-      MYSQL_DATABASE: figsac
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: C6!~g(nAk?qR
-      MYSQL_HOST: database-1.c9q8q0m0uoth.us-east-2.rds.amazonaws.com  # Pones aquí tu endpoint de RDS
-      MYSQL_PORT: 3306
+    env_file:
+      - .env
