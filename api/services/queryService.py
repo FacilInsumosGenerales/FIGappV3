@@ -115,12 +115,12 @@ def armarCallParaProcedimiento(jsonInterpretado,procedimiento):
     sql_call = f"CALL {procedimiento}({filtroSp})"
 
     with connection.cursor() as cursor:
-            cursor.execute(sql_call)
-            try:
-                resultado_sp = cursor.fetchall()
-            except:
-                resultado_sp = "SP ejecutado sin retorno"
-    
+        cursor.execute(sql_call)
+        try:
+            resultado_sp = dictfetchall(cursor)
+        except Exception:
+            resultado_sp = []
+
     return resultado_sp
 
 def duplicarFilas(tabla, columnas):
@@ -151,3 +151,9 @@ def formatearParametrosAdicionales(filtro, filtroAdi):
         return f"{filtro},{parametros}"
     return parametros
 
+def dictfetchall(cursor):
+    columnas = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columnas, fila))
+        for fila in cursor.fetchall()
+    ]
