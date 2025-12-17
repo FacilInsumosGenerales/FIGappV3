@@ -124,7 +124,7 @@ def armarCallParaProcedimiento(jsonInterpretado,procedimiento):
     return resultado_sp
 
 def duplicarFilas(tabla, columnas):
-    filtroTabla = f"'{tabla}'"
+    filtroTabla = f"'api_{tabla}'"
     filtroTraza = f"'{json.dumps(columnas.get('trazasADuplicar', []))}'"
     filtroCampos = f"'{json.dumps(columnas.get('camposCambiados', {}), ensure_ascii=False)}'"
 
