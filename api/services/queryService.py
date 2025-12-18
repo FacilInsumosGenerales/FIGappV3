@@ -14,7 +14,7 @@ def construirQuery(jsonInterpretado):
         valorEnAgrupado = construirValorEnAgrupado(jsonInterpretado.get('groupby',[]))
         valorEnCondicionalGrupo = construirValorEnCondicionalGrupo(jsonInterpretado.get('having'))
         valorEnOrdenar = construirValorEnOrdenar(jsonInterpretado.get('orderby',[]))
-        
+
         with connection.cursor() as cursor:
             cursor.callproc(
                 'ejecutarQuery',
@@ -26,15 +26,20 @@ def construirQuery(jsonInterpretado):
         return resultados
     except Exception as e:
         print("Error")
+        print(f"${nombreTabla}")
+        print(f"${valorEnSelect}")
+        print(f"${valorEnCruce}")
+        print(f"${valorEnCondicional}")
+        print(f"${valorEnAgrupado}")
+        print(f"${valorEnCondicionalGrupo}")
+        print(f"${valorEnOrdenar}")
         raise_error("E999", f"Error al ejecutar la consulta: {str(e)}")
 
 def construirValorEnSelect(informacionColumnas):
-    print("construirValorEnSelect")
     return ", ".join(informacionColumnas)
 
 def construirValorEnCruce(tablaJoins):
     joins = []
-    print("construirValorEnCruce")
     for join in tablaJoins:
         tipo = join.get("tipoRelacion", "")
         izq = "api_" + join.get("nombreTablaIzquierda", "")
@@ -46,11 +51,9 @@ def construirValorEnCruce(tablaJoins):
         sentenciaConAlias = f"{campoAlias}" if campoAlias else ""
         condicion = f"{campoAlias or izq}.{campoIzq} = {der}.{campoDer}"
         joins.append(f"{tipo} JOIN {izq} {sentenciaConAlias} ON {condicion}")
-    print(joins)
     return " ".join(joins)
 
 def construirValorEnCondicional(datosFiltro):
-    print("construirValorEnCondicional")
     if not datosFiltro:
         return ""
     condiciones = []
@@ -67,14 +70,12 @@ def construirValorEnCondicional(datosFiltro):
     return "WHERE " + " ".join(condiciones)
 
 def construirValorEnAgrupado(groupby):
-    print("construirValorEnAgrupado")
     if not groupby:
         return ""
     partes = [f"{g.get('tabla', '') + '.' if g.get('tabla') else ''}{g['columna']}" for g in groupby]
     return "GROUP BY " + ", ".join(partes)
 
 def construirValorEnCondicionalGrupo(havings):
-    print("construirValorEnCondicionalGrupo")
     if not havings:
         return ""
     condiciones = []
@@ -90,7 +91,6 @@ def construirValorEnCondicionalGrupo(havings):
     return "HAVING " + " ".join(condiciones)
 
 def construirValorEnOrdenar(orderby):
-    print("construirValorEnOrdenar")
     if not orderby:
         return ""
     partes = []

@@ -41,7 +41,7 @@ def ejecutarPostInserts(tabla_nombre, insert_ids):
         if tabla_nombre.lower() == "datosgeneralesdelproceso":
             cursor.execute("CALL cod_insert_requerimiento(%s)", [primerid])
 
-        elif tabla_nombre.lower() == "datosgeneralesordencompraproveedores":
+        elif tabla_nombre.lower() == "datosgeneralesordencompraaproveedores":
             cursor.execute("CALL cod_insert_ocproveedor(%s)", [primerid])
 
 def actualizarDatos(tabla_nombre, datos_dict, filtro_dict):
