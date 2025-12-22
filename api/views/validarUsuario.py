@@ -11,18 +11,19 @@ from ..services.authService import autenticarUsuario
 @method_decorator(csrf_exempt, name='dispatch')  # Aplica CSRF exempt a toda la clase
 @manejarErroresVista
 class ValidarUsuario(View):
-    def get(self, request, *args, **kwargs):
-        print(1)
-        jsonRecibido = request.GET.get('data')
-        
+    def post(self, request, *args, **kwargs):
+        body = json.loads(request.body)  # <-- Aquí lees el JSON del body
+
+        jsonRecibido = body.get('data')  # <-- Esto es tu objeto jsonUsuario
+
         validarCamposRequeridos(data=jsonRecibido)
 
-        jsonInterpretado = json.loads(jsonRecibido)
+        resultados = autenticarUsuario(jsonRecibido)
 
-        resultados = autenticarUsuario(jsonInterpretado)
-        print(resultados)
-        if(resultados["esUsuario"]):
-            return enviar_respuesta(data=resultados["data"], message=resultados["mensaje"])
-        else:
-            return enviar_respuesta(data=resultados["data"], message=resultados["mensaje"])
+        return enviar_respuesta(
+            data=resultados.get("data"),
+            message=resultados.get("mensaje")
+        )
+    
 
+    
