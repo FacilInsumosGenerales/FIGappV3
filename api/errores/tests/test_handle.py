@@ -26,7 +26,6 @@ def test_raise_error_codigo_existente_con_mensaje_extra_sin_param():
         raise_error("E001", extra_message="Error con detalle")
     
     exc = exc_info.value
-    print(exc)
     assert exc.codigo == "E001"
     assert "El parámetro '{param}' está vacío o ausente.. Detalle: Error con detalle" in exc.mensaje
     assert exc.estado == 400
