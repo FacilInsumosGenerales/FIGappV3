@@ -25,6 +25,10 @@ def crearCarpeta():
 
 def generarNombreUnico(archivo):
     extension = os.path.splitext(archivo.name)[1]
+
+    if not extension:
+        extension = ".pdf"   # Por si el archivo no tiene extension, por defecto se coloca .pdf
+
     caracteres = string.ascii_letters + string.digits
     nombre = ''.join(random.choices(caracteres, k=10))    
     return nombre + extension
