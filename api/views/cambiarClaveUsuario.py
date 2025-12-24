@@ -9,14 +9,10 @@ from ..services.authService import cambiarClave
 @manejarErroresVista
 class CambiarClaveUsuario(View):
     def post(self, request, *args, **kwargs):
-        print(1)
-
         usuario = request.POST.get('usuario')
         clave = request.POST.get('clave')
 
         respuesta = cambiarClave(usuario,clave)
-
-        print(respuesta)
 
         if(respuesta["success"]):
             return enviar_respuesta(data=respuesta, message=respuesta['mensaje'])

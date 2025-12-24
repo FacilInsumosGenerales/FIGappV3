@@ -72,35 +72,28 @@ def subir_archivo(request):
 
 @csrf_exempt  # Solo si no estás usando CSRF en tus peticiones AJAX (ten cuidado con esto)
 def obtener_datos_view(request):
-    print(1)
     # Recibir parámetros desde el request (pueden ser enviados como JSON o GET parameters)
     tabla_nombre = request.GET.get('tabla_nombre')
     columnas = request.GET.getlist('columnas')
     filtros = request.GET.get('filtros')  # Si necesitas un filtro, debe ser un JSON serializable
     
-    print(columnas, type(columnas))
     # Convertir filtros a un diccionario si es necesario (esto dependerá de cómo lo envíes)
     if filtros:
         filtros = json.loads(filtros)
     else:
         filtros = {}
 
-    print(3)
     # Llamar a la función para obtener los datos
     respuesta = obtener_datos_con_relaciones(tabla_nombre, columnas, filtros)
     
-    print(4)
     return JsonResponse(respuesta)
 
 @csrf_exempt  # Solo si no estás usando CSRF en tus peticiones AJAX (ten cuidado con esto)
 def obtenerDatos(request):
     try:
-        print(1)
         jsonRecibido = request.GET.get('data')
-        print(jsonRecibido)
 
         jsonInterpretado = json.loads(jsonRecibido)
-        print(jsonInterpretado)
 
         resultados = construirQuery(jsonInterpretado)
         
@@ -114,8 +107,6 @@ def obtenerDatos(request):
 def guardarDatos(request):
     if request.method == 'POST':
         try:
-            print(1)
-
             jsonRecibido = request.POST.get('data')
             usuarioRecibido = request.POST.get('usuario')
 
@@ -126,12 +117,6 @@ def guardarDatos(request):
 
             if hayVacio:
                 raise_error("E001", f"Falta {campoFaltante}")
-
-            print('jsonRecibido',jsonRecibido)
-            print('usuarioRecibido',usuarioRecibido)
-
-
-
 
         except Exception as e:
             return JsonResponse({"mensaje": str(e), "status": 500})

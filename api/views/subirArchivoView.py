@@ -12,7 +12,6 @@ from ..utils.funcionesGenerales import enviar_respuesta
 class SubirArchivoView(View):
     
     def post(self, request, *args, **kwargs):
-        print(1)
         archivo = request.FILES.get("archivo")
         resultado = procesarSubidaArchivo(archivo)
         return enviar_respuesta(message="Archivo subido correctamente",data=resultado)

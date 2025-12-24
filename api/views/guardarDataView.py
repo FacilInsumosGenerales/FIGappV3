@@ -13,15 +13,13 @@ from ..utils.funcionesGenerales import enviar_respuesta
 @manejarErroresVista
 class GuardarDataView(View):
     def post(self, request, *args, **kwargs):
-
-        print(1)
         jsonRecibido = request.POST.get('data')
         usuario = request.POST.get('usuario')
 
         validarCamposRequeridos(data=jsonRecibido, usuario=usuario)
 
         jsonInterpretado = json.loads(jsonRecibido)
-        print(jsonInterpretado)
+
         validarContenidoData(jsonInterpretado, ['nombreTabla', 'informacionColumnas'])
 
         columnas = jsonInterpretado.get('informacionColumnas')

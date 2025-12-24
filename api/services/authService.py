@@ -17,9 +17,6 @@ def autenticarUsuario(jsonInterpretado):
 
     hash_db = usuario_obj.password
 
-    print("HASH DB:", hash_db)
-    print("CLAVE INGRESADA:", clave)
-
     if hash_db.startswith("pbkdf2_"):
         if not check_password(clave, hash_db):
             return {

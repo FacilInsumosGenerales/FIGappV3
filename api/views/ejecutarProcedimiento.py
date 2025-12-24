@@ -12,7 +12,6 @@ from ..utils.funcionesGenerales import enviar_respuesta
 @manejarErroresVista
 class EjecutarProcedimiento(View):
     def get(self, request, *args, **kwargs):
-        print(1)
         procedimiento = request.GET.get('procedimientoConFiltros')
         jsonRecibido = request.GET.get('data')
 

@@ -13,7 +13,6 @@ from ..utils.funcionesGenerales import enviar_respuesta
 @manejarErroresVista
 class ActualizarDataView(View):
     def post(self, request, *args, **kwargs):
-        print(1)
         jsonRecibido = request.POST.get('data')
         validarCamposRequeridos(data=jsonRecibido)
         jsonInterpretado = json.loads(jsonRecibido)

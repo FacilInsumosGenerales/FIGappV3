@@ -28,8 +28,8 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "francisdev.xyz",
-    "www.francisdev.xyz",
+    "facilinsumos.com",
+    "www.facilinsumos.com",
     "localhost",
     "127.0.0.1",
     "3.14.87.62",
