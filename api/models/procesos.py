@@ -19,6 +19,11 @@ class DatosGeneralesDelProceso(models.Model):
 
     TRAZA = models.AutoField(primary_key=True)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['submissionDate','estado'], name='idx_datosgen_fecha_estado'),
+        ]
+
 
 class DatosGeneralesOCsClientes(models.Model):
     numeroDeCotizacion =models.ForeignKey('DatosGeneralesDeCotizaciones',blank=True,on_delete=models.CASCADE)
@@ -37,7 +42,15 @@ class DatosGeneralesOCsClientes(models.Model):
 
 class DatosGeneralesOrdenCompraAProveedores(models.Model):
     noOrdenDeCompra = models.CharField(max_length=300, null=True, blank=True)
-    proveedor = models.ForeignKey('Empresas', null=True, blank=True, on_delete=models.CASCADE)
+
+    proveedor = models.ForeignKey(
+        'Contactos',
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name='ordenes_compra'
+    )
+
     estado =models.IntegerField(null=True,blank=True)
     moneda = models.CharField(max_length=3, null=True, blank=True)
     valorDeCompra = models.DecimalField(max_digits=13, decimal_places=2, null=True, blank=True)
