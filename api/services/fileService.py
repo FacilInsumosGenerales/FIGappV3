@@ -49,7 +49,12 @@ def obtenerFilasDeExcel(archivo, ignorarColumnas, extraColunmnas):
     edicionValor = f"{fechaActual}, Sistema , Dato ingreso por lote"
 
     filas = []
+
     for row in ws.iter_rows(min_row=2, values_only=True):
+
+        if not any(cell not in (None, "", " ") for cell in row):
+            continue
+        
         filaDict = {}
 
         for i, valor in enumerate(row):
