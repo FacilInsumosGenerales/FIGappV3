@@ -3,7 +3,7 @@ from django.db import models
 class DatosGeneralesDelProceso(models.Model):
     codReq = models.CharField(max_length=300, null=True, blank=True)
     nombreDelProducto = models.TextField(null=True, blank=True)
-    prioridad = models.CharField(max_length=300, null=True, blank=True)
+    prioridad = models.IntegerField(null=True, blank=True)
     contactoCliente = models.ForeignKey('Contactos', null=True, blank=True, on_delete=models.SET_NULL)
     otrosCostosConFactura = models.DecimalField(max_digits=11, decimal_places=2, null=True, blank=True)
     costosSinFactura = models.DecimalField(max_digits=11, decimal_places=2, null=True, blank=True)
