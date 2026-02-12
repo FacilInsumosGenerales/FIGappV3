@@ -35,3 +35,28 @@ class TablaPrueba(models.Model):
     ediciones = models.TextField(null=True, blank=True)
 
     TRAZA = models.AutoField(primary_key=True)
+
+
+class TipoDeCambio(models.Model):
+    MONEDAS = (
+        (1, 'PEN'),
+        (2, 'EUR'),
+        (3, 'USD')
+    )
+
+    moneda = models.PositiveSmallIntegerField(choices=MONEDAS)
+    fecha = models.DateField(db_index=True)
+    compra = models.DecimalField(max_digits=10, decimal_places=4)
+    venta = models.DecimalField(max_digits=10, decimal_places=4)
+    creadoEn = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('moneda', 'fecha')
+        indexes = [
+            models.Index(fields=['moneda', 'fecha']),
+        ]
+
+    def __str__(self):
+        return f"{self.get_moneda_display()} - {self.fecha}"
+    
+
