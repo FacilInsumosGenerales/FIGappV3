@@ -76,7 +76,6 @@ class ProductosEnOCCliente(models.Model):
     ocCliente = models.ForeignKey('DatosGeneralesOCsClientes', null=True, blank=True, on_delete=models.CASCADE)
     cantidad = models.DecimalField(max_digits=13, decimal_places=2, null=True, blank=True)
     fechaEntregaMaxima = models.DateTimeField(null=True, blank=True)
-    ediciones = models.TextField(null=True, blank=True)
 
     TRAZA = models.AutoField(primary_key=True)
 
@@ -88,7 +87,6 @@ class ProductosEnOCProveedor(models.Model):
     cantidad = models.DecimalField(max_digits=13, decimal_places=2, null=True, blank=True)
     stock = models.BooleanField(null=True, blank=True)
     fechaEntregaMaxima = models.DateTimeField(null=True, blank=True)
-    ediciones = models.TextField(null=True, blank=True)
 
     TRAZA = models.AutoField(primary_key=True)
 
