@@ -1,11 +1,10 @@
 from django.views import View
-from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 import json
 from ..utils.decoradores import manejarErroresVista
 from ..utils.validacion import validarCamposRequeridos, validarContenidoData
-from ..services.dataService import actualizarDatos
+from ..services.updateService import actualizarDatos
 from ..utils.funcionesGenerales import enviar_respuesta
 
 

@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from ..utils.decoradores import manejarErroresVista
 from ..utils.validacion import validarCamposRequeridos, validarContenidoData
-from ..services.dataService import guardarDatosNuevos
+from ..services.insertService import guardarDatosNuevos
 from ..utils.funcionesGenerales import enviar_respuesta
 
 

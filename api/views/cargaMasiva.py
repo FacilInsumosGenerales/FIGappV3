@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from ..utils.decoradores import manejarErroresVista
 from ..utils.funcionesGenerales import enviar_respuesta
 from ..services.fileService import obtenerFilasDeExcel
-from ..services.dataService import guardarDatosNuevos
+from ..services.insertService import guardarDatosNuevos
 import json
 
 
