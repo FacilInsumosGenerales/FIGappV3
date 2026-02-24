@@ -1,7 +1,6 @@
 from django.db import transaction
 from django.utils import timezone
 from ..models import DatosGeneralesDelProceso, HistorialRequerimientos
-from datetime import timedelta
 
 
 def guardarHistorialRequerimientos(datos_dict,filtro_dict, esInsert=True):

@@ -46,6 +46,14 @@ class ProductosCotizacion(models.Model):
 
     TRAZA = models.AutoField(primary_key=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['cotizacionProveedor', 'cotizacionCliente'],
+                name='unique_proveedor_cliente'
+            )
+        ]
+
     def __str__(self):
             return f"Proveedor: {self.cotizacionProveedor} - Cliente: {self.cotizacionCliente}"
 
@@ -55,6 +63,7 @@ class ProductosEnLogistica(models.Model):
     producto = models.ForeignKey('ProductosEnOCProveedor', null=False, blank=False, on_delete=models.CASCADE)
     cantidad = models.DecimalField(max_digits=13, decimal_places=2, null=True, blank=True)
     destinoFinal = models.ForeignKey('Lugares', null=True, blank=True, on_delete=models.CASCADE)
+    estado = models.IntegerField(null=True, blank=True)
     fechaEntregaCliente = models.DateTimeField(null=True, blank=True)
     fechaEntregaProveedor = models.DateTimeField(null=True, blank=True)
     ediciones = models.TextField(null=True, blank=True)

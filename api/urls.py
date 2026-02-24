@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ObtenerDataView, GuardarDataView, ActualizarDataView, SubirArchivoView, EjecutarProcedimiento, ValidarUsuario, CambiarClaveUsuario, CargaMasivaView
+from .views import ObtenerDataView, GuardarDataView, ActualizarDataView, SubirArchivoView, EjecutarProcedimiento, ValidarUsuario, CambiarClaveUsuario, CargaMasivaView, EliminarDataView
 
 urlpatterns = [
     path('obtenerDatos/', ObtenerDataView.as_view(), name="obtenerDatos"),
@@ -10,4 +10,5 @@ urlpatterns = [
     path('ejecutarProcedimiento/', EjecutarProcedimiento.as_view(), name="ejecutarProcedimiento"),
     path('validarUsuario/', ValidarUsuario.as_view(), name="validarUsuario"),
     path('cambiarClave/', CambiarClaveUsuario.as_view(), name="cambiarClave"),
+    path('eliminarDatos/', EliminarDataView.as_view(), name="eliminarDatos"),
 ]
