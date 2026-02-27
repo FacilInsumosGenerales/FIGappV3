@@ -62,6 +62,7 @@ class DatosGeneralesOrdenCompraAProveedores(models.Model):
     observaciones = models.CharField(max_length=500, null=True, blank=True)
     ediciones = models.TextField(null=True, blank=True)
     fechaActualizacion = models.DateTimeField(null=True, blank=True)
+    notasDeCoordinacion = models.CharField(max_length=500,null=True, blank=True)
     
     TRAZA = models.AutoField(primary_key=True)
 
