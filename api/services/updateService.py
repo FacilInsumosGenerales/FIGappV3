@@ -2,11 +2,12 @@ from django.apps import apps
 from ..errores.handle import raise_error
 from django.db import transaction
 from .datosGeneralesService import guardarHistorialRequerimientos
+from .abonoService import servicioAbonoFactura
 
 
 def actualizarDatos(tabla_nombre, datos_dict, filtro_dict):
     with transaction.atomic():
-        guardarHistorial(tabla_nombre,datos_dict,filtro_dict)
+        dispararEvento(tabla_nombre,datos_dict,filtro_dict)
 
         modelo = apps.get_model('api', tabla_nombre)
         if not modelo:
@@ -30,9 +31,11 @@ def actualizarDatos(tabla_nombre, datos_dict, filtro_dict):
 
     return True
 
-def guardarHistorial(tabla_nombre,datos_dict,filtro_dict):
+def dispararEvento(tabla_nombre,datos_dict,filtro_dict):
     if tabla_nombre == "datosgeneralesdelproceso" and "estado" in datos_dict:
         return guardarHistorialRequerimientos(datos_dict,filtro_dict, False)
+    if tabla_nombre == "pagosrelacionados":
+        return servicioAbonoFactura(filtro_dict["TRAZA"])
     
 
 def actualizarDatosMasivo(tabla_nombre, datos_dict, filtro_dict):

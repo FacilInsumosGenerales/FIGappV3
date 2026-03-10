@@ -2,6 +2,7 @@ from django.apps import apps
 from ..errores.handle import raise_error
 from django.db import connection
 from .datosGeneralesService import guardarHistorialRequerimientos
+from .abonoService import servicioAbonoFactura
 
 
 def guardarDatosNuevos(tabla_nombre, datos):
@@ -39,9 +40,11 @@ def ejecutarPostInserts(tabla_nombre, insert_ids):
 
     with connection.cursor() as cursor:
         if tabla_nombre.lower() == "datosgeneralesdelproceso":
-            req = {}
             cursor.execute("CALL cod_insert_requerimiento(%s)", [primerid])
             guardarHistorialRequerimientos(1,primerid,True)
 
         elif tabla_nombre.lower() == "datosgeneralesordencompraaproveedores":
             cursor.execute("CALL cod_insert_ocproveedor(%s)", [primerid])
+
+        elif tabla_nombre.lower() == "pagosrelacionados":
+            servicioAbonoFactura(primerid)
