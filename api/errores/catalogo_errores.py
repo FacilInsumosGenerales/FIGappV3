@@ -30,6 +30,11 @@ ERROR_CATALOG = {
         "message": "Error en codigo: {detail}",
         "status": 500
     },
+    "E501": {
+        "type": "Exception",
+        "message": "Error en la API SUNAT: {detail}",
+        "status": 500
+    },
     "E999": {
         "type": "BaseAppException",
         "message": "Error desconocido: {detail}",

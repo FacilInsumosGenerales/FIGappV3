@@ -7,3 +7,4 @@ from .ejecutarProcedimiento import EjecutarProcedimiento
 from .validarUsuario import ValidarUsuario
 from .cambiarClaveUsuario import CambiarClaveUsuario
 from .cargaMasiva import CargaMasivaView
+from .tipoCambioView import TipoCambioView

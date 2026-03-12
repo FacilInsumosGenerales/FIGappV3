@@ -40,8 +40,8 @@ class TablaPrueba(models.Model):
 class TipoDeCambio(models.Model):
     MONEDAS = (
         (1, 'PEN'),
-        (2, 'EUR'),
-        (3, 'USD')
+        (2, 'USD'),
+        (3, 'EUR')
     )
 
     moneda = models.PositiveSmallIntegerField(choices=MONEDAS)
@@ -49,6 +49,7 @@ class TipoDeCambio(models.Model):
     compra = models.DecimalField(max_digits=10, decimal_places=4)
     venta = models.DecimalField(max_digits=10, decimal_places=4)
     creadoEn = models.DateTimeField(auto_now_add=True)
+    fuente = models.CharField(max_length=300, blank=True, null=True)
 
     class Meta:
         unique_together = ('moneda', 'fecha')
