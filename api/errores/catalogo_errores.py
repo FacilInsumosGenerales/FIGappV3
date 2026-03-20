@@ -35,6 +35,11 @@ ERROR_CATALOG = {
         "message": "Error en la API SUNAT: {detail}",
         "status": 500
     },
+    "E601": {
+        "type": "Exception",
+        "message": "Error al generar PDF: {detail}",
+        "status": 500
+    },
     "E999": {
         "type": "BaseAppException",
         "message": "Error desconocido: {detail}",

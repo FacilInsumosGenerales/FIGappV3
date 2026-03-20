@@ -74,3 +74,22 @@ def obtenerFilasDeExcel(archivo, ignorarColumnas, extraColunmnas):
 
     return filas
 
+def guardarPdfTemplateEnS3(pdfBytes, data):
+    archivo = ContentFile(pdfBytes)
+
+    archivo.name = generarNombreBase(data)
+
+    ruta = procesarSubidaArchivo
+
+    url = default_storage.url(ruta)
+
+    return url
+
+def generarNombreBase(data):
+    tipo = data.get("tipo","doc")
+    numero = data.get("numero","000")
+
+    caracteres = string.ascii_letters + string.digits
+    randomPart = ''.join(random.choices(caracteres, k=4))
+    
+    return f"{tipo}_{numero}_{randomPart}.pdf"

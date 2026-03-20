@@ -8,3 +8,5 @@ openpyxl
 boto3
 django-storages
 requests
+weasyprint==60.1
+pydyf==0.8.0

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ObtenerDataView, GuardarDataView, ActualizarDataView, SubirArchivoView, EjecutarProcedimiento, ValidarUsuario, CambiarClaveUsuario, CargaMasivaView, EliminarDataView, TipoCambioView
+from .views import ObtenerDataView, GuardarDataView, ActualizarDataView, SubirArchivoView, EjecutarProcedimiento, ValidarUsuario, CambiarClaveUsuario, CargaMasivaView, EliminarDataView, TipoCambioView, GenerarPdfView
 
 urlpatterns = [
     path('obtenerDatos/', ObtenerDataView.as_view(), name="obtenerDatos"),
@@ -11,5 +11,6 @@ urlpatterns = [
     path('validarUsuario/', ValidarUsuario.as_view(), name="validarUsuario"),
     path('cambiarClave/', CambiarClaveUsuario.as_view(), name="cambiarClave"),
     path('eliminarDatos/', EliminarDataView.as_view(), name="eliminarDatos"),
-    path('tipoCambio/', TipoCambioView.as_view(), name="tipoCambio")
+    path('tipoCambio/', TipoCambioView.as_view(), name="tipoCambio"),
+    path('generarPdf/', GenerarPdfView.as_view(), name="generarPdf"),
 ]
