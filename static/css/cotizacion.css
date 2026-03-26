@@ -1,0 +1,142 @@
+@page {
+  size: A4;
+  margin: 0;
+}
+
+/* Evitar cortes feos */
+tr {
+  page-break-inside: avoid;
+}
+
+body{
+  font-family: Arial, sans-serif;
+  margin: 0px;
+}
+
+hr{
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+
+.tableHeader{
+  width: 100%;
+  margin: 0px;
+  border-collapse: collapse;
+}
+
+.filaLogo{
+  background-color: #f3f3f3;
+  color: #013191;
+}
+
+.logo{
+    width: 180.70px; 
+    height: 70.50px; 
+    margin-left: 0.00px; 
+    margin-top: 0.00px; 
+}
+
+.fs-1{
+  font-size: 15px;
+}
+
+.infoFig{
+  font-size: 12px;
+}
+
+.espacioEnBlanco{
+    background:#f3f3f3;
+    height:20px;
+}
+
+.tableDetalleCotizacion{
+  font-size: 12.5px;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.px-1{
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.pr-2{
+  padding-right: 20px;
+}
+
+.pl-2{
+  padding-left: 20px;
+}
+
+.pt-1{
+  padding-top: 20px;
+}
+
+.pb-1{
+  padding-bottom: 20px;
+}
+
+.pb-10{
+  padding-bottom: 10px;
+}
+
+.tableProductos{
+  width: 100%;
+  font-size: 12.5px;
+  table-layout: fixed;
+}
+
+.tablaProductosEncabezado{
+  color: #05216f;
+}
+
+.tableResumen{
+  width: 100%;
+  table-layout: fixed;
+}
+
+.resumenNotas{
+  background-color: #f3f3f3;
+  font-size: 12.5px;
+}
+
+.resumenTotal{
+  background-color: #03359b;
+  color: white;
+  font-size: 12.5PX;
+}
+
+.valorTotal{
+  font-size: 17px
+}
+
+.pl{
+  padding-left: 20px;
+}
+
+.pr{
+  padding-right: 20px;
+}
+
+.tableCondiciones{
+  width: 100%;
+  font-size: 12.5px;
+}
+
+.mensajeContribuyente{
+  text-align: center;
+}
+
+.text-right{
+  text-align: right;
+}
+
+.tableProductos td {
+  white-space: pre-line;
+}
+
+.imagenProducto{
+  width: 60px; 
+  height: auto;
+}

@@ -1,10 +1,10 @@
 from weasyprint import HTML
 from django.template.loader import render_to_string
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
+from ..services.fileService import procesarSubidaArchivo
 from ..errores.handle import raise_error
-from .fileService import guardarPdfTemplateEnS3
 from django.conf import settings
+import re
+from ..models.procesos import DatosGeneralesDeCotizaciones
 
 
 TEMPLATE_MAP = {
@@ -12,8 +12,13 @@ TEMPLATE_MAP = {
     "orden": "ocproveedor.html"
 }
 
+def generarPdfCotizacion(data):
+    pdf = generarPdf(data)
+    url = procesarSubidaArchivo(pdf)
+    actualizarCotizacion(data,url)
+    return url
+
 def generarPdf(data: dict) -> str:
-    print(HTML)
     tipo = data.get("tipo")
 
     if tipo not in TEMPLATE_MAP:
@@ -22,22 +27,22 @@ def generarPdf(data: dict) -> str:
     templateName = TEMPLATE_MAP[tipo]
 
     context = construirContextoCotizacion(data)
-    print("construyo el contexto")
+
     htmlString = render_to_string(templateName, context)
-    print("renderizo a string")
+
     pdf_bytes = HTML(
         string=htmlString,
         base_url=str(settings.BASE_DIR)
     ).write_pdf()
-    print("genero")
-    ## url = guardarPdfTemplateEnS3(pdf_bytes, data)
-    print(pdf_bytes)
+
     return pdf_bytes
 
 def construirContextoCotizacion(data):
     cotizacion = data.get("cotizacion", {})
     cliente = data.get("cliente", {})
     resumen = data.get("resumen", {})
+
+    bucket = "https://bucket533462777573.s3.us-east-2.amazonaws.com/"
 
     contexto = {
         "cotizacion": {
@@ -48,7 +53,7 @@ def construirContextoCotizacion(data):
             "moneda": cotizacion.get("moneda",""),
             "direccionEntrega": cotizacion.get("direccionEntrega",""),
             "formaPago": cotizacion.get("formaPago",""),
-            "observacion": cotizacion.get("observacion",""),
+            "observacion": limpiarTexto(cotizacion.get("observacion","")),
         },
         "cliente": {
             "empresa": cliente.get("empresa",""),
@@ -60,12 +65,15 @@ def construirContextoCotizacion(data):
         },
         "productos": [
             {
-                "descripcion": producto.get("descripcion",""),
+                "descripcion": limpiarTexto(producto.get("descripcionCliente","")),
+                "marca": limpiarTexto(producto.get("marca","")),
+                "modelo": limpiarTexto(producto.get("modelo","")),
+                "imagen": bucket + producto["imagen"] if producto.get("imagen") else "",
                 "tiempoEntrega": producto.get("tiempoEntrega",""),
-                "unidadMedida": producto.get("unidadMedida",""),
+                "unidadMedida": producto.get("medida",""),
                 "cantidad": producto.get("cantidad",""),
-                "valorUnitario": producto.get("valorUnitario",""),
-                "Importe": producto.get("Importe",""),
+                "valorUnitario": producto.get("precioXUnidadCliente",""),
+                "importe": producto.get("importe",""),
             }
             for producto in data.get("productos",[])
         ],
@@ -78,3 +86,25 @@ def construirContextoCotizacion(data):
 
     return contexto
 
+def limpiarTexto(texto):
+    if not texto:
+        return ""
+
+    # Normaliza saltos (Windows, Linux, etc.)
+    texto = texto.replace('\r\n', '\n').replace('\r', '\n')
+
+    # Reduce múltiples saltos a solo uno
+    texto = re.sub(r'\n+', '\n', texto)
+
+    # Limpia espacios excesivos (pero no rompe líneas)
+    texto = re.sub(r'[ \t]+', ' ', texto)
+
+    return texto.strip()
+
+def actualizarCotizacion(data,url):
+    cotizacion_id = data.get("cotizacion", {}).get("traza")
+    DatosGeneralesDeCotizaciones.objects.filter(
+        TRAZA=cotizacion_id
+    ).update(
+        archivo=url
+    )

@@ -8,13 +8,19 @@ from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 
 
-def procesarSubidaArchivo(archivo):
+def procesarSubidaArchivo(archivo, nombre="archivo.pdf"):
     carpetaRelativa, _ = crearCarpeta()
-    nombreUnico = generarNombreUnico(archivo)
 
+    if isinstance(archivo, bytes):
+        archivo = ContentFile(archivo, name=nombre)
+
+    if not hasattr(archivo, "name") or not archivo.name:
+        archivo.name = nombre
+
+    nombreUnico = generarNombreUnico(archivo)
     rutaArchivo = f"{carpetaRelativa}/{nombreUnico}"
 
-    guardarArchivo(rutaArchivo, archivo)
+    default_storage.save(rutaArchivo,archivo)
 
     return f"{rutaArchivo}"
   
@@ -33,12 +39,6 @@ def generarNombreUnico(archivo):
     nombre = ''.join(random.choices(caracteres, k=10))    
     return nombre + extension
 
-def guardarArchivo(rutaArchivo,archivo):
-    default_storage.save(
-        rutaArchivo,
-        ContentFile(archivo.read())
-    )
-  
 def obtenerFilasDeExcel(archivo, ignorarColumnas, extraColunmnas):
     wb = load_workbook(archivo)
     ws = wb.active
