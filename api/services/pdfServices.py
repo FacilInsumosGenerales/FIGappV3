@@ -4,7 +4,7 @@ from ..services.fileService import procesarSubidaArchivo
 from ..errores.handle import raise_error
 from django.conf import settings
 import re
-from ..models.procesos import DatosGeneralesDeCotizaciones
+from ..models.procesos import DatosGeneralesDeCotizaciones, DatosGeneralesOrdenCompraAProveedores
 
 
 TEMPLATE_MAP = {
@@ -15,7 +15,8 @@ TEMPLATE_MAP = {
 def generarPdfCotizacion(data):
     pdf = generarPdf(data)
     url = procesarSubidaArchivo(pdf)
-    actualizarCotizacion(data,url)
+
+    actualizarDocumento(data,url)
     return url
 
 def generarPdf(data: dict) -> str:
@@ -26,7 +27,10 @@ def generarPdf(data: dict) -> str:
 
     templateName = TEMPLATE_MAP[tipo]
 
-    context = construirContextoCotizacion(data)
+    if tipo == "cotizacion":
+        context = construirContextoCotizacion(data)
+    elif tipo == "orden":
+        context = construirContextoOrden(data)
 
     htmlString = render_to_string(templateName, context)
 
@@ -38,8 +42,8 @@ def generarPdf(data: dict) -> str:
     return pdf_bytes
 
 def construirContextoCotizacion(data):
-    cotizacion = data.get("cotizacion", {})
-    cliente = data.get("cliente", {})
+    cotizacion = data.get("documento", {})
+    cliente = data.get("tercero", {})
     resumen = data.get("resumen", {})
 
     bucket = "https://bucket533462777573.s3.us-east-2.amazonaws.com/"
@@ -101,10 +105,69 @@ def limpiarTexto(texto):
 
     return texto.strip()
 
-def actualizarCotizacion(data,url):
-    cotizacion_id = data.get("cotizacion", {}).get("traza")
-    DatosGeneralesDeCotizaciones.objects.filter(
-        TRAZA=cotizacion_id
-    ).update(
-        archivo=url
-    )
+def actualizarDocumento(data,url):
+    tipo = data.get("tipo")
+
+    if(tipo == "cotizacion"):
+        cotizacion_id = data.get("documento", {}).get("traza")
+        DatosGeneralesDeCotizaciones.objects.filter(
+            TRAZA=cotizacion_id
+        ).update(
+            archivo=url
+        )
+
+    elif(tipo == "orden"):
+        orden_id = data.get("documento", {}).get("traza")
+        DatosGeneralesOrdenCompraAProveedores.objects.filter(
+            TRAZA=orden_id
+        ).update(
+            ocPdf=url
+        )
+
+def construirContextoOrden(data):
+    orden = data.get("documento", {})
+    proveedor = data.get("tercero", {})
+    resumen = data.get("resumen", {})
+
+    bucket = "https://bucket533462777573.s3.us-east-2.amazonaws.com/"
+
+    contexto = {
+        "orden": {
+            "numeroOrden": orden.get("numeroOrden", ""),
+            "requerimiento": orden.get("requerimiento",""),
+            "fecha": orden.get("fecha",""),
+            "validez": orden.get("validez",""),
+            "moneda": orden.get("moneda",""),
+            "direccionEntrega": orden.get("direccionEntrega",""),
+            "formaPago": orden.get("formaPago",""),
+            "observacion": limpiarTexto(orden.get("observacion",""))
+        },
+        "proveedor": {
+            "empresa": proveedor.get("empresa",""),
+            "ruc": proveedor.get("ruc",""),
+            "contacto": proveedor.get("contacto", ""),
+            "celular": proveedor.get("celular",""),
+            "email": proveedor.get("email","")
+        },
+        "productos": [
+            {
+                "descripcion": limpiarTexto(producto.get("descripcionProveedor","")),
+                "marca": limpiarTexto(producto.get("marca","")),
+                "modelo": limpiarTexto(producto.get("modelo","")),
+                "imagen": bucket + producto["imagen"] if producto.get("imagen") else "",
+                "fechaEntregaMaxima": producto.get("fechaEntregaProveedor",""),
+                "unidadMedida": producto.get("medida",""),
+                "cantidad": producto.get("cantidad",""),
+                "valorUnitario": producto.get("costoXUnidadProveedor",""),
+                "importe": producto.get("importe",""),
+            }
+            for producto in data.get("productos",[])
+        ],
+        "resumen": {
+            "subTotal": resumen.get("subTotal",""),
+            "igv": resumen.get("igv",""),
+            "total": resumen.get("total","")
+        }
+    }
+
+    return contexto
