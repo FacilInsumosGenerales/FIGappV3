@@ -73,7 +73,7 @@ def construirContextoCotizacion(data):
                 "marca": limpiarTexto(producto.get("marca","")),
                 "modelo": limpiarTexto(producto.get("modelo","")),
                 "imagen": bucket + producto["imagen"] if producto.get("imagen") else "",
-                "tiempoEntrega": producto.get("tiempoEntrega",""),
+                "tiempoEntrega": producto.get("diasEntregaCliente",""),
                 "unidadMedida": producto.get("medida",""),
                 "cantidad": producto.get("cantidad",""),
                 "valorUnitario": producto.get("precioXUnidadCliente",""),

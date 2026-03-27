@@ -79,6 +79,7 @@ class DatosGeneralesDeCotizaciones(models.Model):
     archivo = models.CharField(max_length=300, null=True, blank=True)
     adjuntos = models.CharField(max_length=300, null=True, blank=True)
     observaciones = models.CharField(max_length=500, null=True, blank=True)
+    tipoCambio = models.DecimalField(max_digits=13, decimal_places=4, null=True, blank=True)
     estado = models.IntegerField(null=True, blank=True)
     ediciones = models.TextField(null=True, blank=True)
 
