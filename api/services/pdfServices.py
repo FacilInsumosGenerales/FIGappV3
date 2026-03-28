@@ -110,10 +110,14 @@ def actualizarDocumento(data,url):
 
     if(tipo == "cotizacion"):
         cotizacion_id = data.get("documento", {}).get("traza")
+        total = data.get("resumen", {}).get("total")
+        igv = data.get("resumen", {}).get("igv")
         DatosGeneralesDeCotizaciones.objects.filter(
             TRAZA=cotizacion_id
         ).update(
-            archivo=url
+            archivo=url,
+            valorDeVenta=total,
+            igv=igv
         )
 
     elif(tipo == "orden"):
@@ -121,7 +125,9 @@ def actualizarDocumento(data,url):
         DatosGeneralesOrdenCompraAProveedores.objects.filter(
             TRAZA=orden_id
         ).update(
-            ocPdf=url
+            ocPdf=url,
+            valorDeCompra=total,
+            igv=igv
         )
 
 def construirContextoOrden(data):

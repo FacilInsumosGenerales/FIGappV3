@@ -140,3 +140,7 @@ hr{
   width: 60px; 
   height: auto;
 }
+
+.textoArriba{
+  vertical-align: top;
+}
