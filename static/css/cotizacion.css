@@ -31,8 +31,8 @@ hr{
 }
 
 .logo{
-    width: 180.70px; 
-    height: 70.50px; 
+    width: 198px; 
+    height: 100.50px; 
     margin-left: 0.00px; 
     margin-top: 0.00px; 
 }
@@ -41,8 +41,13 @@ hr{
   font-size: 15px;
 }
 
+.fs-logo{
+  font-size: 14px;
+}
+
 .infoFig{
-  font-size: 12px;
+  font-size: 10px;
+  line-height: 0.5;
 }
 
 .espacioEnBlanco{
@@ -51,7 +56,7 @@ hr{
 }
 
 .tableDetalleCotizacion{
-  font-size: 12.5px;
+  font-size: 12px;
   width: 100%;
   table-layout: fixed;
 }
@@ -83,7 +88,7 @@ hr{
 
 .tableProductos{
   width: 100%;
-  font-size: 12.5px;
+  font-size: 12px;
   table-layout: fixed;
 }
 
@@ -98,13 +103,13 @@ hr{
 
 .resumenNotas{
   background-color: #f3f3f3;
-  font-size: 12.5px;
+  font-size: 12px;
 }
 
 .resumenTotal{
   background-color: #03359b;
   color: white;
-  font-size: 12.5PX;
+  font-size: 12PX;
 }
 
 .valorTotal{
@@ -121,7 +126,7 @@ hr{
 
 .tableCondiciones{
   width: 100%;
-  font-size: 12.5px;
+  font-size: 11px;
 }
 
 .mensajeContribuyente{

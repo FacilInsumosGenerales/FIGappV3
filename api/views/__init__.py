@@ -9,3 +9,4 @@ from .cambiarClaveUsuario import CambiarClaveUsuario
 from .cargaMasiva import CargaMasivaView
 from .tipoCambioView import TipoCambioView
 from .generarPdf import GenerarPdfView
+from .obtenerTipoCambio import ObtenerTipoCambioView
