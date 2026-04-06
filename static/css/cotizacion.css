@@ -52,7 +52,7 @@ hr{
 
 .espacioEnBlanco{
     background:#f3f3f3;
-    height:20px;
+    height: 10px;
 }
 
 .tableDetalleCotizacion{
@@ -67,11 +67,11 @@ hr{
 }
 
 .pr-2{
-  padding-right: 20px;
+  padding-right: 30px;
 }
 
 .pl-2{
-  padding-left: 20px;
+  padding-left: 30px;
 }
 
 .pt-1{
@@ -113,7 +113,7 @@ hr{
 }
 
 .valorTotal{
-  font-size: 17px
+  font-size: 17px;
 }
 
 .pl{
@@ -125,6 +125,11 @@ hr{
 }
 
 .tableCondiciones{
+  width: 100%;
+  font-size: 11px;
+}
+
+.tableCuentas{
   width: 100%;
   font-size: 11px;
 }
@@ -142,7 +147,7 @@ hr{
 }
 
 .imagenProducto{
-  width: 60px; 
+  width: 80px; 
   height: auto;
 }
 

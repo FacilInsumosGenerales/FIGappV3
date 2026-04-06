@@ -97,9 +97,6 @@ def limpiarTexto(texto):
     # Normaliza saltos (Windows, Linux, etc.)
     texto = texto.replace('\r\n', '\n').replace('\r', '\n')
 
-    # Reduce múltiples saltos a solo uno
-    texto = re.sub(r'\n+', '\n', texto)
-
     # Limpia espacios excesivos (pero no rompe líneas)
     texto = re.sub(r'[ \t]+', ' ', texto)
 
@@ -110,23 +107,25 @@ def actualizarDocumento(data,url):
 
     if(tipo == "cotizacion"):
         cotizacion_id = data.get("documento", {}).get("traza")
-        total = data.get("resumen", {}).get("total")
+        subTotal = data.get("resumen", {}).get("subTotal")
         igv = data.get("resumen", {}).get("igv")
         DatosGeneralesDeCotizaciones.objects.filter(
             TRAZA=cotizacion_id
         ).update(
             archivo=url,
-            valorDeVenta=total,
+            valorDeVenta=subTotal,
             igv=igv
         )
 
     elif(tipo == "orden"):
         orden_id = data.get("documento", {}).get("traza")
+        subTotal = data.get("resumen", {}).get("subTotal")
+        igv = data.get("resumen", {}).get("igv")
         DatosGeneralesOrdenCompraAProveedores.objects.filter(
             TRAZA=orden_id
         ).update(
             ocPdf=url,
-            valorDeCompra=total,
+            valorDeCompra=subTotal,
             igv=igv
         )
 

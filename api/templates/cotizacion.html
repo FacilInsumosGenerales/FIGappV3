@@ -77,8 +77,8 @@
                             <td class="pb-10">{{ cotizacion.validez }}</td>
                         </tr>
                         <tr>
-                            <td class="pl-2 pb-10"><strong>Moneda:</strong></td>
-                            <td class="pb-10">{{ cotizacion.moneda }}</td>
+                            <td class="pl-2 pb-10"><strong style="background-color: #efdf54;">Moneda:</strong></td>
+                            <td class="pb-10"><strong style="background-color: #efdf54;">{{ cotizacion.moneda }}</strong></td>
                         </tr>
                         <tr>
                             <td class="pl-2 pb-10"><strong>Forma De Pago:</strong></td>
@@ -155,14 +155,14 @@
                 </td>
                 <td width="30%" class="resumenTotal pr-2 pt-1 pb-1 text-right">
                     <strong>TOTAL:</strong><br><br>
-                    <span class="valorTotal">{{ resumen.total }}</span>
+                    <span class="valorTotal"><strong>{{ resumen.total }}</strong></span>
                 </td>
             </tr>
         </table>
 
         <table class="tableCondiciones">
             <tr>
-                <td class="pl-2 pt-1">
+                <td class="pl-2 pt-1 pr-2">
                     <p>
                         <strong>*&nbsp;Una vez aceptada la cotizaci&oacute;n y/o suscrita la OC, no se aceptan
                         anulaciones ni cambios por cambios de parecer o errores en la orden.</strong><br>
@@ -177,6 +177,13 @@
                         * Agradecemos cancelar las facturas en la moneda cotizada. En caso contrario
                         comunicarse con FIGSAC para pedir el tipo de cambio.<br>
                     </p>
+                </td>
+            </tr>
+        </table>
+
+        <table class="tableCuentas">
+            <tr>
+                <td class="pl-2 pt-1 pr-2">
                     <p>
                         <strong>Datos de CTA CTE INTERBANK</strong><br>
                         SOLES: Cta Cte 293-3002638978 //CCI 003-293-003002638978-80<br>
