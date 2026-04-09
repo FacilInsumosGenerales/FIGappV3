@@ -10,3 +10,4 @@ from .cargaMasiva import CargaMasivaView
 from .tipoCambioView import TipoCambioView
 from .generarPdf import GenerarPdfView
 from .obtenerTipoCambio import ObtenerTipoCambioView
+from .duplicarProductoCotizado import DuplicarProductoCotizadoView
