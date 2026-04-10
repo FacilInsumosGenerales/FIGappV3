@@ -11,9 +11,7 @@ from ..services.productosOfrecidosService import duplicarProductoOfrecido
 class DuplicarProductoCotizadoView(View):
     def post(self, request, *args, **kwargs):
         traza = request.POST.get('producto')
-
         duplicarProductoOfrecido(traza)
-
         return enviar_respuesta(message="Se elimino correctamente")
     
     

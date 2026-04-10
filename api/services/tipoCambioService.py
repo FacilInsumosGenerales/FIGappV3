@@ -64,12 +64,9 @@ def guardarEnTabla(resultado):
     )
     
 def obtenerTipoCambio():
-    hoy = date.today()
-
     tipo = TipoDeCambio.objects.filter(
-        moneda=2,
-        fecha=hoy
-    ).first()
+        moneda=2
+    ).order_by('-fecha').first()
 
     return {
         "fecha": tipo.fecha,
