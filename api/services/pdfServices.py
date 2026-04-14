@@ -21,6 +21,7 @@ def generarPdfCotizacion(data):
 
 def generarPdf(data: dict) -> str:
     tipo = data.get("tipo")
+    documento = data.get("documento")
 
     if tipo not in TEMPLATE_MAP:
         raise_error("E601", f"Tipo de documento invalido")
@@ -28,7 +29,12 @@ def generarPdf(data: dict) -> str:
     templateName = TEMPLATE_MAP[tipo]
 
     if tipo == "cotizacion":
+        data["productos"] = ordenarProductos(
+            data.get("productos", []),
+            documento.get("orden", "ALFABETICO")
+        )
         context = construirContextoCotizacion(data)
+
     elif tipo == "orden":
         context = construirContextoOrden(data)
 
@@ -176,3 +182,16 @@ def construirContextoOrden(data):
     }
 
     return contexto
+
+def ordenarProductos(productos, tipoOrden):
+    if tipoOrden == "ALFABETICO":
+        return sorted(productos, key=lambda x: x.get("descripcionCliente", "").lower())
+
+    elif tipoOrden == "TRAZA":
+        return sorted(productos, key=lambda x: x.get("TRAZA", 0))
+
+    elif tipoOrden == "PERSONALIZADO":
+        ## return sorted(productos, key=lambda x: x.get("orden", 0)) TODO: AUN NO SE IMPLEMENTA ESA COLUMNA EN LA TABLA
+        return sorted(productos, key=lambda x: x.get("descripcionCliente", "").lower())
+
+    return productos  # fallback

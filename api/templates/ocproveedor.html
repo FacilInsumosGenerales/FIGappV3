@@ -112,11 +112,11 @@
                         {% if producto.modelo %}Modelo: {{ producto.modelo }}{% endif %}
                         {% if producto.imagen %}<img src="{{ producto.imagen }}" class="imagenProducto">{% endif %}
                     </td>
-                    <td class="text-right pb-10">{{ producto.fechaEntregaMaxima }}</td>
-                    <td class="text-right pb-10">{{ producto.unidadMedida }}</td>
-                    <td class="text-right pb-10">{{ producto.cantidad }}</td>
-                    <td class="text-right pb-10">{{ producto.valorUnitario }}</td>
-                    <td class="pr text-right pb-10">{{ producto.importe }}</td>
+                    <td class="text-right pb-10 textoArriba">{{ producto.fechaEntregaMaxima }}</td>
+                    <td class="text-right pb-10 textoArriba">{{ producto.unidadMedida }}</td>
+                    <td class="text-right pb-10 textoArriba">{{ producto.cantidad }}</td>
+                    <td class="text-right pb-10 textoArriba">{{ producto.valorUnitario }}</td>
+                    <td class="pr text-right pb-10 textoArriba">{{ producto.importe }}</td>
                 </tr>
                 {% endfor %}
                 <tr>
