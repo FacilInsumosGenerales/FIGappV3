@@ -28,6 +28,7 @@ class BdCotizacionesDeProveedores(models.Model):
     cantidad = models.DecimalField(max_digits=13, decimal_places=2, null=True, blank=True)
     costoXUnidadSinIgvEnMonedaDeOferta = models.DecimalField(max_digits=13, decimal_places=4, null=True, blank=True)
     precioVentaXUnidadSinIgvEnMonedaDeOferta = models.DecimalField(max_digits=13, decimal_places=4, null=True, blank=True)
+    orden = models.IntegerField(null=True, blank=True)
     link = models.CharField(max_length=1200, null=True, blank=True)
     #habilitarYDeshabilitar = models.CharField(max_length=150, null=True, blank=True)
     adjuntoFichaTecnica = models.CharField(max_length=300, null=True, blank=True)

@@ -191,7 +191,6 @@ def ordenarProductos(productos, tipoOrden):
         return sorted(productos, key=lambda x: x.get("TRAZA", 0))
 
     elif tipoOrden == "PERSONALIZADO":
-        ## return sorted(productos, key=lambda x: x.get("orden", 0)) TODO: AUN NO SE IMPLEMENTA ESA COLUMNA EN LA TABLA
-        return sorted(productos, key=lambda x: x.get("descripcionCliente", "").lower())
+        return sorted(productos, key=lambda x: x.get("orden") if x.get("orden") is not None else float("inf"))
 
     return productos  # fallback
