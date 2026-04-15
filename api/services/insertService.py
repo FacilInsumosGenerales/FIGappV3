@@ -3,6 +3,7 @@ from ..errores.handle import raise_error
 from django.db import connection
 from .datosGeneralesService import guardarHistorialRequerimientos
 from .abonoService import servicioAbonoFactura
+from .datosGeneralesCotizacionService import asignarTipoCambioACotizacion
 
 
 def guardarDatosNuevos(tabla_nombre, datos):
@@ -48,3 +49,6 @@ def ejecutarPostInserts(tabla_nombre, insert_ids):
 
         elif tabla_nombre.lower() == "pagosrelacionados":
             servicioAbonoFactura(primerid)
+
+        elif tabla_nombre.lower() == "datosgeneralesdecotizaciones":
+            asignarTipoCambioACotizacion(primerid)
