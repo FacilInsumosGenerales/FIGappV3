@@ -1,6 +1,8 @@
 from django.db import connection
 from ..errores.handle import raise_error
 import json
+import datetime
+from django.utils import timezone
 
 
 def construirQuery(jsonInterpretado):
@@ -21,6 +23,8 @@ def construirQuery(jsonInterpretado):
             columnas = [col[0] for col in cursor.description]
             resultados = [dict(zip(columnas, fila)) for fila in cursor.fetchall()]
 
+        resultados = convertirFechas(resultados)
+        
         return resultados
     except Exception as e:
         print("Error")
@@ -98,6 +102,20 @@ def construirValorEnOrdenar(orderby):
         orden = o["orden"]
         partes.append(f"{tabla + '.' if tabla else ''}{col} {orden}")
     return "ORDER BY " + ", ".join(partes)
+
+def convertirFechas(resultados):
+    for fila in resultados:
+        for key, value in fila.items():
+
+            if isinstance(value, datetime.datetime):
+
+                if value.tzinfo is None:
+                    value = timezone.make_aware(value, timezone.utc)
+
+                # Convertir a Perú
+                fila[key] = timezone.localtime(value)
+
+    return resultados
 
 def armarCallParaProcedimiento(jsonInterpretado,procedimiento):
     filtro = jsonInterpretado.get("datosFiltro", "")
