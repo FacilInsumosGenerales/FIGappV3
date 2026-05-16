@@ -3,11 +3,12 @@ from ..errores.handle import raise_error
 from django.db import transaction
 from .datosGeneralesService import guardarHistorialRequerimientos
 from .abonoService import servicioAbonoFactura
+from .cotizacion.cambiarEstado import cambiar_estado_req_cotizacion_enviada
 
 
 def actualizarDatos(tabla_nombre, datos_dict, filtro_dict):
     with transaction.atomic():
-        dispararEvento(tabla_nombre,datos_dict,filtro_dict)
+        dispararEventoAntes(tabla_nombre,datos_dict,filtro_dict)
 
         modelo = apps.get_model('api', tabla_nombre)
         if not modelo:
@@ -27,16 +28,22 @@ def actualizarDatos(tabla_nombre, datos_dict, filtro_dict):
         
         objeto.save()
 
+        dispararEventoDespues(tabla_nombre,datos_dict,filtro_dict)
+
         return True
 
     return True
 
-def dispararEvento(tabla_nombre,datos_dict,filtro_dict):
+def dispararEventoAntes(tabla_nombre,datos_dict,filtro_dict):
     if tabla_nombre == "datosgeneralesdelproceso" and "estado" in datos_dict:
         return guardarHistorialRequerimientos(datos_dict,filtro_dict, False)
     if tabla_nombre == "pagosrelacionados":
         return servicioAbonoFactura(filtro_dict["TRAZA"])
-    
+
+def dispararEventoDespues(tabla_nombre,datos_dict,filtro_dict):
+    if tabla_nombre == "datosgeneralesdecotizaciones" and "estado" in datos_dict:
+        if datos_dict["estado"] == "1":
+            return cambiar_estado_req_cotizacion_enviada(filtro_dict["TRAZA"])
 
 def actualizarDatosMasivo(tabla_nombre, datos_dict, filtro_dict):
     with transaction.atomic():
