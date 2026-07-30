@@ -69,6 +69,7 @@ class ProductosEnLogistica(models.Model):
     fechaEntregaProveedor = models.DateTimeField(null=True, blank=True)
     ediciones = models.TextField(null=True, blank=True)
     etiqueta = models.CharField(max_length=300, null=True, blank=True)
+    fechaLlegada = models.DateTimeField(null=True, blank=True)
 
     TRAZA = models.AutoField(primary_key=True)
 
