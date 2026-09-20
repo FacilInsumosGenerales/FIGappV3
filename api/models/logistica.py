@@ -19,7 +19,7 @@ class MovimientosLogisticos(models.Model):
 
 class GuiasEmitidas(models.Model):
     ocDeCliente = models.ForeignKey('DatosGeneralesOCsClientes', null=True, blank=True, on_delete=models.CASCADE)
-    numeroGuia = models.CharField(max_length=300, null=True, blank=True)
+    numeroGuia = models.CharField(max_length=300, null=True, blank=True,unique=True)
     guiaSinFirmaPdf = models.CharField(max_length=300, null=True, blank=True)
     guiaFirmadaPdf = models.CharField(max_length=300, null=True, blank=True)
     fechaEmision = models.DateTimeField(null=True, blank=True)

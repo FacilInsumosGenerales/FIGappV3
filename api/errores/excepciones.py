@@ -13,17 +13,3 @@ class BaseAppException(Exception):
             "status": self.estado
         }
 
-
-class ValidacionError(BaseAppException):
-    """Errores de validación de datos."""
-    pass
-
-
-class DataBaseError(BaseAppException):
-    """Errores al ejecutar procedimientos o consultas."""
-    pass
-
-
-class UnauthorizedError(BaseAppException):
-    """Errores de autenticación/autorización."""
-    pass
