@@ -90,6 +90,7 @@ class DatosGeneralesDeCotizaciones(models.Model):
 class PagosRelacionados(models.Model):
     comprobante = models.ForeignKey('ComprobantesDePago', null=False, blank=False, on_delete=models.CASCADE)
     movimiento = models.ForeignKey('MovimientosBancarios', null=True, blank=True, on_delete=models.CASCADE)
+    notas = models.ForeignKey('Notas', null=True, blank=True, on_delete=models.CASCADE)
     monto = models.DecimalField(max_digits=13, decimal_places=2, null=True, blank=True)
 
     TRAZA = models.AutoField(primary_key=True)
